@@ -1,19 +1,19 @@
 <?php
 
-$base = 'Lossendae\Admin\Controllers\\';
+$base = 'Lossendae\PreviouslyOn\Controllers\\';
 
-Route::get('/', 'IndexPageController@index');
+Route::get('/', $base . 'IndexPageController@index');
 
-Route::group(array('before' => 'xsrf', 'prefix' => 'api'), function ()
+Route::group(array('before' => 'xsrf', 'prefix' => 'api'), function () use($base)
 {
-    Route::get('remote/search', 'ApiController@search');
-    Route::put('remote/{id}', 'ApiController@put');
+    Route::get('remote/search', $base . 'ApiController@search');
+    Route::put('remote/{id}', $base . 'ApiController@put');
 
-    Route::get('manage/list', 'ManageController@query');
-    Route::get('manage/{id}', 'ManageController@listSeasons');
-    Route::put('manage/{id}/{status}', 'EpisodeStatusController@update');
-    Route::delete('manage/{id}', 'ManageController@removeTvShow');
+    Route::get('manage/list', $base . 'ManageController@query');
+    Route::get('manage/{id}', $base . 'ManageController@listSeasons');
+    Route::put('manage/{id}/{status}', $base . 'EpisodeStatusController@update');
+    Route::delete('manage/{id}', $base . 'ManageController@removeTvShow');
 });
 
-Route::get('/{all}', 'IndexPageController@index')
+Route::get('/{all}', $base . 'IndexPageController@index')
      ->where('all', '.*');
