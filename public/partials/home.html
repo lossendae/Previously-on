@@ -1,0 +1,42 @@
+<section class="intermediate controls">
+    <div class="wrapper">
+        <div data-ng-show="total > 0">
+            <label class="for-select" for="series-status"> Voir :</label>
+
+            <div class="select">
+                <select name="status" id="series-status" data-ng-model="search.status">
+                    <option value="">Tout</option>
+                    <option value="1">Pas tout vu</option>
+                    <option value="0">Tout vu</option>
+                </select>
+            </div>
+
+            <input type="text" placeholder="Filter séries..." class="filter-search" data-ng-model="search.name"/>
+        </div>
+    </div>
+</section>
+<!-- /.intermediate -->
+
+<section class="content" data-loading-spinner data-wait>
+    <div class="wrapper">
+        <div class="desc centered" data-ng-show="total == 0">
+            <p>Bienvenue ! Welcome ! Wilkommen !</p>
+        </div>
+
+        <ul class="series cf">
+            <li class="card" data-ng-repeat="serie in series | filter:search:strict">
+                <a href="" data-ui-sref="index.gestion-serie({ id: serie.id })">
+                    <img src="{{ serie.poster }}">
+                </a>
+
+                <div class="status">
+                    <h4>{{ serie.name }}</h4>
+                    <p ng-if="serie.remaining == 0">Tout vu</p>
+                    <p ng-if="serie.remaining == 1">Un épisode non vu</p>
+                    <p ng-if="serie.remaining > 1">{{ serie.remaining }} épisodes non vus</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+<!-- .content -->

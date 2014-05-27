@@ -1,0 +1,29 @@
+{
+    "name": "lossendae/previously-on",
+    "description": "A simple TV Show manager used as playground",
+    "keywords": ["laravel", "angular", "playground"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "lossendae",
+            "email": "lossendae@gmail.com"
+        }
+    ],
+    "require":
+    {
+        "php": ">=5.3.0",
+        "fpn/thetvdb": "dev-master",
+        "dannytrue/phpthumb": "dev-master"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "1.4.*@dev",
+        "mockery/mockery": "0.8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lossendae\\PreviouslyOn\\": "src"
+        }
+    },
+
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,540 @@
+@import url(http://fonts.googleapis.com/css?family=Dosis:400,700);
+
+* {
+    margin:  0;
+    padding: 0;
+}
+
+*::-moz-selection {
+    background: none repeat scroll 0 0 #D75959;
+    color:      #FFFFFF;
+}
+
+a {
+    text-decoration: none;
+    color:           inherit;
+}
+
+ul, ol {
+    list-style: none outside none;
+}
+
+body {
+    color:            #24272C;
+    background-color: #FFFFFF;
+    font-family:      'Dosis', arial, sans-serif;
+    font-size:        1em;
+    line-height:      normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+}
+
+h3 {
+    color:          #666666;
+    line-height:    50px;
+    text-align:     center;
+    text-transform: uppercase;
+}
+
+/* GENERAL */
+
+.wrapper {
+    margin:    0 auto;
+    max-width: 940px;
+}
+
+.block-content {
+    border: 1px solid #E0E0E0;
+}
+
+#main {
+    min-height: 100%;
+}
+
+/* HEADER */
+
+header {
+    background:  none repeat scroll 0px 0px #2B2D31;
+    box-sizing:  border-box;
+    color:       #FFFFFF;
+    line-height: 1;
+    margin:      0;
+    padding:     20px;
+}
+
+h1 {
+    color:          #FFB800;
+    font-size:      1.6em;
+    margin:         0;
+    padding:        0;
+    text-transform: uppercase;
+}
+
+a.top-action {
+    border-radius:    4px;
+    float:            right;
+    margin-top:       -6px;
+    padding:          10px 8px;
+    background-color: #FFB800;
+    text-transform:   uppercase;
+    font-weight:      bold;
+    font-size:        0.85em;
+    color:            #24272C;
+}
+
+a.add-series i {
+    margin-left: 8px;
+}
+
+a.top-action {
+    display: none;
+}
+
+a.active {
+    display: block;
+}
+
+/* MAIN */
+
+.intermediate {
+    background-color: #FEF4D8;
+    color:            #24272C;
+}
+
+.intermediate input {
+    background-color: #FFFFFF !important;
+    border-color:     #CCCCCC !important;
+}
+
+.controls {
+    padding: 10px 20px;
+}
+
+.controls label {
+    display:        inline-block;
+    margin-right:   10px;
+    text-transform: uppercase;
+}
+
+.controls .select {
+    width: auto;
+}
+
+input[type="text"].filter-search {
+    background:   url("../images/icon-search.png") no-repeat scroll 8px center padding-box rgba(0, 0, 0, 0);
+    float:        right;
+    min-width:    300px;
+    padding-left: 30px;
+    width:        auto;
+}
+
+/* CONTENT */
+
+.content {
+    padding: 20px;
+    height:  100%;
+}
+
+.series {
+    position: relative;
+}
+
+.series li {
+    float:      left;
+    overflow:   hidden;
+    transition: opacity 0.6s ease-in-out 0s;
+    margin: 0 1.5% 1.5% 0px;
+    width: 23.85%;
+}
+
+.series li:nth-child(4n+4) {
+    margin-right: 0;
+}
+
+.series li a {
+    display:  block;
+    height:   auto;
+    margin:   0;
+    padding:  0;
+    position: relative;
+    width:    auto;
+}
+
+.series img {
+    border-radius: 3px;
+    height:        auto;
+    width:         100%;
+}
+
+.series .status {
+    color:      #666666;
+    text-align: center;
+    font-size:  0.85em;
+}
+
+.series .status h4 {
+    font-size:     1.2em;
+    white-space:   nowrap;
+    text-overflow: ellipsis;
+    overflow:      hidden;
+}
+
+.search-cards li {
+    border-radius: 3px;
+    float:         left;
+    width:         49%;
+    position:      relative;
+    overflow:      hidden;
+    background:    none repeat scroll 0% 0% #2B2D31;
+    margin:        0px 2% 2% 0px;
+}
+
+.search-cards li.odd {
+    margin-right: 0;
+}
+
+.search-cards img {
+    max-height: 90px;
+    width:  100%;
+}
+
+.search-cards .action {
+    padding: 12px 20px 20px;
+    text-align: center;
+}
+
+.search-cards a {
+    padding:        8px 11px;
+    border-radius:  4px;
+    font-weight:    bold;
+    font-size:      0.75em;
+    background:     none repeat scroll 0% 0% #FEF4D8;
+    color:          #2B2D31;
+    text-transform: uppercase;
+}
+
+.search-cards i {
+    margin-left: 5px;
+}
+
+.search-cards .exists {
+    color: #FFFFFF;
+}
+
+.result.failure {
+    background: #FCF0B0;
+    border:     1px solid #D8C14B;
+    padding:    20px;
+}
+
+.desc p {
+    font-size: 1.8em;
+}
+
+/* MANAGE */
+
+.intermediate .action {
+    background-color: #E06D5E;
+    border-radius:    4px;
+    color:            #FFFFFF;
+    padding:          10px 10px;
+    font-weight:      bold;
+    font-size:        0.75em;
+    text-transform:   uppercase;
+}
+
+.intermediate .action i {
+    margin-left: 5px;
+}
+
+.season-block {
+    margin: 0 0 40px;
+}
+
+.season-block h3 {
+    text-align:  left;
+    background:  none repeat scroll 0% 0% #2B2D31;
+    padding:     15px 15px 15px 70px;
+    line-height: 1;
+    color:       #FFFFFF;
+    overflow:    hidden;
+    position:    relative;
+}
+
+.season-block h3 .season-status {
+    display:     block;
+    position:    absolute;
+    background:  none repeat scroll 0% 0% #598D79;
+    padding:     15px;
+    top:         0px;
+    left:        0px;
+    line-height: 0.9;
+}
+
+.season-block h3 .season-status.completed {
+    background: none repeat scroll 0% 0% #7A828B;
+    cursor:     default;
+}
+
+.episodes li {
+    float:   left;
+    margin: 0.5% 0.5% 0px 0px;
+    width: 24.6%;
+}
+
+.episodes li:nth-child(4n+4) {
+    margin-right: 0;
+}
+
+.episode-container {
+    padding: 10px 15px 5px;
+    border: 1px solid #CBCBCB;
+}
+
+.ep-list-item {
+    display:             block;
+    cursor:              pointer;
+    -webkit-user-select: none;
+    -moz-user-select:    none;
+    -ms-user-select:     none;
+    user-select:         none;
+}
+
+.ep-list-item.disabled {
+    opacity: 0.5;
+}
+
+.ep-list-item + .ep-list-item {
+    border-top: 1px solid #F0F2F3;
+}
+
+.ep-list-cb {
+    display: none;
+}
+
+.ep-list-mark {
+    position:       relative;
+    display:        inline-block;
+    vertical-align: top;
+    margin-right:   12px;
+    width:          20px;
+    height:         20px;
+    border:         2px solid #C4CBD2;
+    border-radius:  12px;
+}
+
+.ep-list-mark:before {
+    content:           '';
+    display:           none;
+    position:          absolute;
+    top:               50%;
+    left:              50%;
+    margin:            -5px 0 0 -6px;
+    height:            4px;
+    width:             8px;
+    border:            solid #7EC9AC;
+    border-width:      0 0 4px 4px;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform:    rotate(-45deg);
+    -ms-transform:     rotate(-45deg);
+    -o-transform:      rotate(-45deg);
+    transform:         rotate(-45deg);
+}
+
+.ep-list-cb:checked ~ .ep-list-mark {
+    border-color: #7EC9AC;
+}
+
+.ep-list-cb:checked ~ .ep-list-mark:before {
+    display: block;
+}
+
+.ep-list-desc {
+    font-weight: bold;
+    color:       #7A828B;
+    font-size:   1.2em;
+    line-height: 1.4em;
+}
+
+.ep-list-desc em {
+    display:     block;
+    color:       #AAAAAA;
+    font-weight: normal;
+    font-size:   0.85em;
+    margin-left: 38px;
+}
+
+.ep-list-cb:checked ~ .ep-list-desc {
+    color: #7EC9AC;
+}
+
+/* GLOBAL */
+
+.wrapped {
+    padding: 20px;
+}
+
+.centered {
+    text-align: center;
+}
+
+.cf {
+    *zoom: 1;
+}
+
+.cf:before,
+.cf:after {
+    content: "";
+    display: table;
+}
+
+.cf:after {
+    clear: both;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+/* Animation - Page transition */
+
+#main[ui-view].ng-enter {
+    -webkit-animation: moveFromBottom .6s ease both;
+    animation:         moveFromBottom .6s ease both;
+    z-index:           999;
+}
+
+#main[ui-view].ng-enter-active {
+}
+
+#main[ui-view].ng-leave {
+    -webkit-animation: scaleDown .7s ease both;
+    animation:         scaleDown .7s ease both;
+}
+
+#main[ui-view].ng-leave-active {
+}
+
+.series .card.ng-enter {
+    transition: transform 0.3s linear;
+}
+
+.series .card.ng-enter {
+    transform: scale(0, 0);
+}
+
+.series .card.ng-enter-active {
+    transition: transform 0.3s linear, width 0s linear 0.3s;
+    animation:  scaleCardUp 0.3s linear 0.4s forwards;
+}
+
+.series .card.ng-leave-active {
+    animation: scaleCardDown 0.3s linear forwards;
+}
+
+/* MAKE IT RESPONSIVE */
+
+@media screen and (max-width: 800px) {
+    body {
+        font-size: 0.9em;
+    }
+
+    header {
+        padding: 12px;
+    }
+
+    a.top-action {
+        margin-top: -3px;
+        padding:    8px;
+    }
+
+    .controls {
+        padding: 6px 12px;
+    }
+
+    .content {
+        padding: 12px;
+    }
+}
+
+@media screen and (max-width: 720px) {
+    body {
+        font-size: 0.85em;
+    }
+
+    header {
+        padding: 10px;
+    }
+
+    .controls {
+        padding: 5px 10px;
+    }
+
+    .content {
+        padding: 10px;
+    }
+
+    .search-cards li {
+        margin-right: 0;
+        width: 100%;
+    }
+
+    .search-cards img {
+        max-height: 130px;
+    }
+
+    .season-block {
+        margin: 0px 0px 15px;
+    }
+
+    .episodes li:nth-child(2n+2) {
+        margin-right: 0;
+    }
+
+    .episodes li {
+        margin: 0.6% 0.6% 0px 0px;
+        width: 49.7%;
+    }
+}
+
+@media screen and (max-width: 512px) {
+    body {
+        font-size: 0.7em;
+    }
+
+    input.filter-search[type="text"] {
+        float:      none;
+        margin-top: 5px;
+        width:      100%;
+    }
+
+    .search-cards img {
+        max-height: 100px;
+    }
+
+    .series li:nth-child(2n+2) {
+        margin-right: 0;
+    }
+
+    .series li {
+        width: 49%;
+        margin: 0px 2% 2% 0px;
+    }
+
+    .episodes li {
+        margin: 0.5% 0;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .search-cards img {
+        max-height: 90px;
+    }
+}

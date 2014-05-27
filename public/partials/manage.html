@@ -1,0 +1,51 @@
+<section class="intermediate controls">
+    <div class="wrapper cf">
+        <a class="action right" data-ng-click="removeTvShow(serie.id)">
+            Supprimer série<i class="fa fa-times"></i>
+        </a>
+
+        <h2>{{ serie.name }}</h2>
+
+        <p class="seen" ng-if="serie.remaining == 0">Tout vu</p>
+        <p class="seen" ng-if="serie.remaining == 1">Un épisode non vu</p>
+        <p class="seen" ng-if="serie.remaining > 1">{{ serie.remaining }} épisodes non vus</p>
+    </div>
+</section>
+<!-- /.intermediate -->
+
+<section class="content" data-loading-spinner data-wait>
+    <div class="wrapper">
+        <div class="season-block cf" data-ng-repeat="(key, season) in seasons">
+            <h3>
+                <a href="" data-ng-click="markAsWatched(season)" class="season-status" data-ng-show="(season.episodes | filter:{viewed: false} ).length > 0">
+                    <i class="fa fa-eye"></i>
+                </a>
+                <span class="season-status completed" data-ng-show="(season.episodes | filter:{viewed: false} ).length == 0">
+                    <i class="fa fa-check"></i>
+                </span>
+                Saison {{ key }}
+            </h3>
+            <ul class="episodes">
+                <li data-ng-repeat="episode in season.episodes">
+                    <div class="episode-container">
+                        <div class="ep-list-item disabled" data-ng-show="episode.disabled">
+                            <span class="ep-list-mark"></span>
+                        <span class="ep-list-desc">Episode {{ episode.episode_number }}
+                            <em>{{ episode.air_date }}</em>
+                        </span>
+                        </div>
+                        <label class="ep-list-item" data-ng-show="!episode.disabled">
+                            <input type="checkbox" name="seen" class="ep-list-cb" data-ng-model="episode.viewed" data-ng-change="hasChanged(episode)" data-ng-show="episode.disabled">
+                            <span class="ep-list-mark"></span>
+                        <span class="ep-list-desc">Episode {{ episode.episode_number }}
+                            <em>{{ episode.air_date }}</em>
+                        </span>
+                        </label>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</section>
+<!-- .content -->

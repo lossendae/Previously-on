@@ -1,0 +1,31 @@
+<section class="intermediate controls">
+    <div class="wrapper">
+        <input type="text" placeholder="Rechercher une série..." data-on-enter-blur data-on-blur-change="filter()" ng-model="search"/>
+    </div>
+</section>
+<!-- /.intermediate -->
+
+<section class="content" data-loading-spinner data-wait>
+    <div class="wrapper">
+        <div class="desc centered" data-ng-show="!showSearchResult && !success">
+            <p>Tapez le nom de la série que vous désirez ajouter dans le champs au dessus puis validez avec entrée.</p>
+        </div>
+
+        <div class="desc centered result failure" data-ng-show="showSearchResult && !success">
+            <p>Aucune série trouvée pour la recherche : <strong>"{{ search }}"</strong></p>
+        </div>
+
+        <div class="result success" data-ng-show="showSearchResult && success">
+            <ul class="search-cards cf">
+                <li data-ng-repeat="serie in series" ng-class="{even: $even, odd: $odd}">
+                    <img src="{{ serie.banner_url }}">
+                    <div class="action">
+                        <a data-ng-show="!serie.exists" href="" data-ng-click="add(serie.id)">Ajouter {{ serie.name }} à ma liste <i class="fa fa-plus"></i></a>
+                        <p class="exists" data-ng-show="serie.exists">Série déjà dans la liste</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!-- .content -->
