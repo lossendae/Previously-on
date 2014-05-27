@@ -14,6 +14,10 @@ return array(
     /* The url used as landing page for the application */
     'uri' => '/',
 
+    /* Path to package in public */
+    'assets' => '/packages/lossendae/previously-on',
+    'assets_path' => public_path() . '/packages/lossendae/previously-on',
+
     /* The landing page view */
-    'tpl' => 'previously-on::home',
+    'index' => 'previously-on::home',
 );
