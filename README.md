@@ -72,10 +72,9 @@ $ php artisan pvon:update
 
 ## Todo before release
 
+- [ ] Table refactor for multi user usage
 - [ ] Auth implementation using Sentry
 - [ ] Error message for API search
-- [ ] Delete confirm modal
-- [ ] Table refactor for multi user usage
 - [ ] Auto update show schedule
 
 ## Todo
@@ -83,6 +82,7 @@ $ php artisan pvon:update
 - [ ] Schedule page
 - [ ] Improve interactions (buttons & responsive behaviours)
 - [ ] Multi language support
+- [ ] Delete confirm modal
 
 ## License
 
