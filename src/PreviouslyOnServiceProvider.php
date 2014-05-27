@@ -9,7 +9,7 @@
 */
 namespace Lossendae\PreviouslyOn;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as ServiceProvider;
 
 class PreviouslyOnServiceProvider extends ServiceProvider
 {
@@ -23,11 +23,11 @@ class PreviouslyOnServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->package('lossendae/previously-on');
-        $this->registerSession();
-        $this->registerCookie();
+//        $this->registerSession();
+//        $this->registerCookie();
 
         // include start file
-        include(__DIR__ . 'start.php');
+        include(__DIR__ . '/start.php');
     }
 
     /**
@@ -38,7 +38,7 @@ class PreviouslyOnServiceProvider extends ServiceProvider
     public function register()
     {
         // load package config
-        $this->app['config']->package('lossendae/previously-on', __DIR__.'config');
+        $this->app['config']->package('lossendae/previously-on', __DIR__.'/config');
 
         // add the install command to the application
         $this->app['pvon:install'] = $this->app->share(function($app)
