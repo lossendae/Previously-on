@@ -39,6 +39,12 @@ class PreviouslyOnServiceProvider extends ServiceProvider
         // load package config
         $this->app['config']->package('lossendae/previously-on', __DIR__.'/config');
 
+        // add the user seed command to the application
+        $this->app['pvon:user'] = $this->app->share(function($app)
+        {
+            return new Commands\CreateUserCommand($app);
+        });
+
         // add the install command to the application
         $this->app['pvon:install'] = $this->app->share(function($app)
         {
@@ -52,6 +58,7 @@ class PreviouslyOnServiceProvider extends ServiceProvider
         });
 
         // add commands
+        $this->commands('pvon:user');
         $this->commands('pvon:install');
         $this->commands('pvon:update');
     }
