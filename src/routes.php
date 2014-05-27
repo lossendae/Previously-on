@@ -6,8 +6,8 @@ Route::get('/', $base . 'IndexPageController@index');
 
 Route::group(array('before' => 'xsrf', 'prefix' => 'api'), function () use($base)
 {
-    Route::get('remote/search', $base . 'ApiController@search');
-    Route::put('remote/{id}', $base . 'ApiController@put');
+    Route::get('remote/search', $base . 'Api\SearchController@get');
+    Route::put('remote/{id}', $base . 'Api\AssignController@put');
 
     Route::get('manage/list', $base . 'ManageController@query');
     Route::get('manage/{id}', $base . 'ManageController@listSeasons');
