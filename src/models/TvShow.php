@@ -45,6 +45,11 @@ class TvShow extends Eloquent
         return $this->hasMany('Lossendae\PreviouslyOn\Models\Episode');
     }
 
+    public function assigned()
+    {
+        return $this->belongsToMany('User', 'assigned_tv_shows')->withPivot('user_id');
+    }
+
     public static function boot()
     {
         parent::boot();
