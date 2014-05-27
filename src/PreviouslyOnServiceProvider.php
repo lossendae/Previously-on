@@ -22,9 +22,8 @@ class PreviouslyOnServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->package('lossendae/previously-on');
-//        $this->registerSession();
-//        $this->registerCookie();
+        //For PSR-4 compatibility we need to specify the correct path (3rd parameter)
+        $this->package('lossendae/previously-on', null, __DIR__);
 
         // include start file
         include(__DIR__ . '/start.php');
