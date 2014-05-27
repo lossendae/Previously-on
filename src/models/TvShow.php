@@ -8,8 +8,9 @@
 * file that was distributed with this source code.
 */
 
-namespace Lossendae\PreviouslyOn;
+namespace Lossendae\PreviouslyOn\Models;
 
+use Config, File, DB;
 use Eloquent;
 
 class TvShow extends Eloquent
@@ -41,7 +42,7 @@ class TvShow extends Eloquent
 
     public function episodes()
     {
-        return $this->hasMany('Episode');
+        return $this->hasMany('Lossendae\PreviouslyOn\Models\Episode');
     }
 
     public static function boot()
@@ -55,7 +56,7 @@ class TvShow extends Eloquent
                    ->delete();
 
             // Remove the associated poster image
-            $cacheDir = public_path() . '/images/cache/' . $tvShow->id;
+            $cacheDir = Config::get('previously-on::app.assets_path') . '/images/cache/' . $tvShow->id;
             File::deleteDirectory($cacheDir);
         });
     }

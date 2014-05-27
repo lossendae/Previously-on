@@ -8,9 +8,9 @@
 * file that was distributed with this source code.
 */
 
-namespace Lossendae\PreviouslyOn;
+namespace Lossendae\PreviouslyOn\Models;
 
-use Eloquent;
+use DB, Eloquent;
 
 class Episode extends Eloquent
 {
@@ -39,7 +39,7 @@ class Episode extends Eloquent
 
     public function tvShow()
     {
-        return $this->belongsTo('tvShow');
+        return $this->belongsTo('Lossendae\PreviouslyOn\Models\tvShow');
     }
 
     public function scopeWatched($query, $id)
