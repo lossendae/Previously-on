@@ -32,9 +32,6 @@ class CreateEpisodesTable extends Migration
             $table->integer('episode_number')
                   ->unsigned();
 
-            $table->tinyInteger('viewed')
-                  ->default(0);
-
             $table->timestamps();
 
             $table->index('name');
@@ -42,7 +39,6 @@ class CreateEpisodesTable extends Migration
             $table->index('season_id');
             $table->index('season_number');
             $table->index('episode_number');
-            $table->index('viewed');
         });
     }
 
