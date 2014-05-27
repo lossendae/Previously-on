@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A website to manage your TVShows">
 
-    <title>Previously.io - TV Shows manager</title>
+    <title>Previously On - TV Shows manager</title>
 
     <link rel="shortcut icon" href="images/favicon.ico">
     {{ HTML::style($cssPath . 'normalize.css') }}
@@ -32,7 +32,7 @@
                 <i class="fa fa-times"></i> Retour liste
             </a>
 
-            <h1><a data-ui-sref="index">Previously.io</a></h1>
+            <h1><a data-ui-sref="index">Previously On</a></h1>
         </div>
     </header>
 
