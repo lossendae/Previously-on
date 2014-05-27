@@ -16,7 +16,6 @@ use Lossendae\PreviouslyOn\Models\Episode;
 
 class EpisodeStatusController extends Controller
 {
-
     /**
      * @param $id
      * @param $status
@@ -28,18 +27,25 @@ class EpisodeStatusController extends Controller
 
         $episode = Episode::find($id);
 
+        /* Double check : we don't update the watch status of an un-aired episode */
         if(strtotime($episode->first_aired) > strtotime('now'))
         {
             return $response;
         }
-        $episode->viewed = $status;
 
-        if($episode->save()) {
+        /* Use the pivot table */
+        $episode->watched()
+                ->sync(array(1, array('status' => $status)));
+
+        if($episode->save())
+        {
+            /* Send back the updated remaining number of episode to watch */
             $watchList = TvShow::remaining($episode->tv_show_id, true);
-            $response['remaining'] = $watchList->remaining;
-            $response['success'] = true;
 
-//        Log::debug('QRY DEBUG PREVIOUSLY.IO', [DB::getQueryLog()]);
+            $response['remaining'] = $watchList->remaining;
+            $response['success']   = true;
+
+
         }
 
         return $response;
