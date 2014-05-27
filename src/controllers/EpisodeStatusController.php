@@ -8,11 +8,11 @@
 * file that was distributed with this source code.
 */
 
-namespace Lossendae\PreviouslyOn;
+namespace Lossendae\PreviouslyOn\Controllers;
 
 use Controller;
-use FPN\TheTVDB\HttpClient\Buzz;
-use FPN\TheTVDB\Api;
+use Lossendae\PreviouslyOn\Models\TvShow;
+use Lossendae\PreviouslyOn\Models\Episode;
 
 class EpisodeStatusController extends Controller
 {

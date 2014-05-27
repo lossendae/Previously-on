@@ -8,11 +8,11 @@
 * file that was distributed with this source code.
 */
 
-namespace Lossendae\PreviouslyOn;
+namespace Lossendae\PreviouslyOn\Controllers;
 
-use Controller;
-use FPN\TheTVDB\HttpClient\Buzz;
-use FPN\TheTVDB\Api;
+use Controller, Config, DB;
+use Lossendae\PreviouslyOn\Models\TvShow;
+use Lossendae\PreviouslyOn\Models\Episode;
 
 class ManageController extends Controller
 {
@@ -38,7 +38,7 @@ class ManageController extends Controller
         foreach($series as $serie)
         {
             $row              = $serie->toArray();
-            $row['poster']    = '/images/cache/' . $serie->id . '/poster-thumb.jpg';
+            $row['poster']    = Config::get('previously-on::app.assets') . '/images/cache/' . $serie->id . '/poster-thumb.jpg';
             $row['remaining'] = (int)$serie->remaining;
             $row['status']    = (int)$serie->remaining > 0 ? 1 : 0;
             $data[]           = $row;

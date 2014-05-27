@@ -8,11 +8,14 @@
 * file that was distributed with this source code.
 */
 
-namespace Lossendae\PreviouslyOn;
+namespace Lossendae\PreviouslyOn\Controllers;
 
-use Controller, Config;
+use Controller, Config, Input, File;
 use FPN\TheTVDB\HttpClient\Buzz;
 use FPN\TheTVDB\Api;
+use Lossendae\PreviouslyOn\Models\TvShow;
+use Lossendae\PreviouslyOn\Models\Episode;
+use PHPThumb;
 
 class ApiController extends Controller
 {
@@ -23,7 +26,7 @@ class ApiController extends Controller
     public function __construct()
     {
         $this->httpClient = new Buzz();
-        $this->api        = new Api($this->httpClient, Config::get('previously.api_key'));
+        $this->api        = new Api($this->httpClient, Config::get('previously-on::app.api_key'));
     }
 
     /**
@@ -108,8 +111,6 @@ class ApiController extends Controller
             return [
                 'success' => false,
                 'message' => 'Une erreur est survenue lors de la récupération de la fiche de la série',
-
-                'debug'   => $targetDir = public_path() . '/images/cache/1/'
             ];
         }
 
@@ -159,7 +160,7 @@ class ApiController extends Controller
      */
     protected function createImage($obj, $original)
     {
-        $cacheDir = public_path() . '/images/cache/';
+        $cacheDir = Config::get('previously-on::app.assets_path') . '/images/cache/';
         $targetDir = $cacheDir . $obj->id .'/';
 
         if(!is_dir($cacheDir))

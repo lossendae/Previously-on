@@ -8,26 +8,26 @@
 * file that was distributed with this source code.
 */
 
-namespace Lossendae\PreviouslyOn;
+namespace Lossendae\PreviouslyOn\Controllers;
 
-use BaseController;
+use BaseController, View, Config;
 
 class IndexPageController extends BaseController
 {
     public function index()
     {
-        return View::make('home', array(
-            'cssPath'      => 'css/',
-            'libsPath'     => 'js/app/libs/',
-            'jsPath'       => 'js/',
+        return View::make(Config::get('previously-on::app.index'), array(
+            'cssPath'      => Config::get('previously-on::app.assets') . '/css/',
+            'libsPath'     => Config::get('previously-on::app.assets') . '/js/libs/',
+            'appPath'       => Config::get('previously-on::app.assets') . '/js/app/',
             'config'       => array(
                 'paths'  => array(
-                    'jsLibs' => '/js/app/libs/',
-                    'app'    => '/js/app/',
-                    'views'  => '/partials/',
+                    'jsLibs' => Config::get('previously-on::app.assets') . '/js/libs/',
+                    'app'    => Config::get('previously-on::app.assets') . '/js/app/',
+                    'views'  => Config::get('previously-on::app.assets') . '/partials/',
                 ),
             ),
-            'dependencies' => Config::get('previously.deps')
+            'dependencies' => Config::get('previously-on::dependencies')
         ));
     }
 
