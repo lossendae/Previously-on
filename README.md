@@ -9,6 +9,17 @@ A stand alone responsive TV Show manager using :
 * Thetvdb API (lien)
 * PhpThumb (lien)
 
+## Requirements
+
+This package require the Laravel framework and a MySQL database.
+
+The following versions of PHP are supported by this version.
+
+* PHP 5.3
+* PHP 5.4
+* PHP 5.5
+* PHP 5.6
+
 ## Install
 
 Via Composer
@@ -47,26 +58,17 @@ $ php artisan pvon:admin username email password
 ```
 
 You can access to the login page : `http://your-url/`
+
 Or the admin page : `http://your-url/admin`
 
 Both routes can be changed to your preference via the config file in `app/config/packages/lossendae/previously-on/config.php`.
+The default route for the app require you to remove the default route from Laravel setup in `app/routes.php`.
 
 ### Update command
 
 ``` bash
 $ php artisan pvon:update
 ```
-
-## Requirements
-
-This package require the Laravel framework and a MySQL database.
-
-The following versions of PHP are supported by this version.
-
-* PHP 5.3
-* PHP 5.4
-* PHP 5.5
-* PHP 5.6
 
 ## Todo before release
 

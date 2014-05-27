@@ -10,4 +10,10 @@
 
 return array(
     'api_key' => '',
+
+    /* The url used as landing page for the application */
+    'uri' => '/',
+
+    /* The landing page view */
+    'tpl' => 'previously-on::home',
 );
