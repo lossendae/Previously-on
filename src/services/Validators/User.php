@@ -14,7 +14,7 @@ class User extends Validator
             'username' => array('required', 'min:3', 'max:16'),
         ),
         'login' => array(
-            'username' => array('required'),
+            'username' => array('required', 'exists:users'),
             'pwd' => array('required', 'min:6', 'max:18'),
         ),
     );
