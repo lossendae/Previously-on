@@ -3,6 +3,13 @@
 define(['app'], function (app) {
 
     var authService = function ($resource, $rootScope, $state) {
+        var clearCache = function(response){
+            if (response.status = 200 && !response.data.logged) {
+                $rootScope.$broadcast('event:auth-logoutSuccess', response.data);
+            }
+            return response.data;
+        };
+
         return $resource('/auth/:action', null,
             {
                 'logIn': {
@@ -17,6 +24,7 @@ define(['app'], function (app) {
                         response: function (response) {
                             $rootScope.loggedUser = {};
                             $state.transitionTo('index.login');
+                            return clearCache(response);
                         }
                     },
                     params: {'action': 'logout'},
@@ -37,17 +45,16 @@ define(['app'], function (app) {
             });
     };
 
-    app.factory('authService', ['$resource', '$rootScope', '$state', authService]);
+    app.factory('authService', ['$resource', '$rootScope', '$state', '$cacheFactory', authService]);
 
-    var logOut = function($cacheFactory, authService) {
+    var logOut = function($state, authService) {
         return function (scope, element) {
             element.bind('click', function(){
-                var $httpDefaultCache = $cacheFactory.get('$http');
-                $httpDefaultCache.removeAll();
+                $state.transitionTo('index');
                 authService.logOut();
             });
         }
     };
 
-    app.directive('logOut', ['$cacheFactory','authService', logOut]);
+    app.directive('logOut', ['$state', 'authService', logOut]);
 });

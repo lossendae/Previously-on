@@ -2,7 +2,7 @@
 
 define(['app'], function (app) {
 
-    var start = function ($rootScope, $state, $stateParams, $window, authInterceptor, authService) {
+    var start = function ($rootScope, $state, $stateParams, $window, $cacheFactory, authInterceptor, authService) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
 
@@ -67,6 +67,22 @@ define(['app'], function (app) {
             updateToken(false);
         });
 
+        // @todo make this more dynamic
+        $rootScope.$on('event:auth-logoutSuccess', function (e, response) {
+            var check = $cacheFactory.info();
+
+            console.log(check);
+
+            angular.forEach(check, function(value, key) {
+                if(value.hasOwnProperty('capacity')){
+                    var key = value.id;
+                    $cacheFactory.get(key).removeAll();
+                }
+            }, check);
+
+            console.log(check);
+        });
+
         // Update the session token
         var updateToken = function(flag) {
             flag = angular.isDefined(flag) ? flag :  true;
@@ -107,6 +123,7 @@ define(['app'], function (app) {
         '$state',
         '$stateParams',
         '$window',
+        '$cacheFactory',
         'authInterceptor',
         'authService',
         start

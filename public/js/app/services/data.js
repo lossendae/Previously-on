@@ -4,7 +4,7 @@ define(['app'], function (app) {
 
     var DataService = function ($resource, $cacheFactory) {
 
-        var TVShowsCache = $cacheFactory('TVShowsCache', { capacity: 50 });
+        var TVShowsCache = $cacheFactory('TVShowsCache', { capacity: 1 });
         var ManageCache = $cacheFactory('ManageCache', { capacity: 20 });
         var clearCache = function(response){
             if (response.status = 200 && response.data.success) {
