@@ -74,19 +74,38 @@ class TvShow extends Eloquent
                      ->where('season_number', '>', 0);
     }
 
-    public function scopeNotSeen($query, $id = 0, $returnResult = false)
+    public function scopeAssignedTo($query, $userId)
     {
-        $remainingEpisodes = 'COUNT(CASE WHEN ' . DB::getTablePrefix() . 'watched_episodes.status = 0 AND ';
+        $query->join('assigned_tv_shows', function ($join) use ($userId)
+              {
+                  $join->on('tv_shows.id', '=', 'assigned_tv_shows.tv_show_id')
+                       ->where('assigned_tv_shows.user_id', '=', (int)$userId);
+              });
+
+        return $query;
+    }
+
+    public function scopeAllWithRemaining($query, $userId)
+    {
+        $remainingEpisodes = 'COUNT(CASE WHEN IF(' . DB::getTablePrefix() . 'watched_episodes.user_id, 1, 0) = 0 AND ';
         $remainingEpisodes .= DB::getTablePrefix() . 'episodes.first_aired < NOW() THEN 1 END) as remaining';
 
-        $query->leftJoin('episodes', 'tv_shows.id', '=', 'episodes.tv_show_id')
-              ->leftJoin('watched_episodes', 'episodes.id', '=', 'watched_episodes.episode_id')
-              ->addSelect(DB::raw($remainingEpisodes));
+        $query->addSelect(DB::raw($remainingEpisodes))
+              ->leftJoin('episodes', 'tv_shows.id', '=', 'episodes.tv_show_id')
+              ->leftJoin('watched_episodes', function ($join) use ($userId)
+              {
+                  $join->on('episodes.id', '=', 'watched_episodes.episode_id')
+                       ->where('watched_episodes.user_id', '=', (int)$userId);
+              })
+              ->where('episodes.season_number', '>', (int)0);
 
-        if($id > 0)
-        {
-            $query->where('tv_shows.id', '=', $id);
-        }
+        return $query;
+    }
+
+    public function scopeOneWithRemaining($query, $id = 0, $userId, $returnResult = false)
+    {
+        $query->allWithRemaining($userId, $returnResult)
+              ->where('tv_shows.id', '=', $id);
 
         if($returnResult)
         {

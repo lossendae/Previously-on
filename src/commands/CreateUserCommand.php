@@ -72,9 +72,6 @@ class CreateUserCommand extends Command
             }
             else
             {
-                // Create the user
-//                $password = Hash::make('secret');
-
                 User::create([
                     'username' => $username,
                     'password' => Hash::make($pass),

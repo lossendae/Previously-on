@@ -22,10 +22,10 @@ class SearchController extends BaseController
     public function get()
     {
         $response = ['data' => []];
-        $query    = Input::get('q');
+        $search    = Input::get('q');
 
         /* Most of the time, the result will only be returned on exact match - this is not google! */
-        $results = $this->api->searchTvShow($query);
+        $results = $this->api->searchTvShow($search);
 
         if(!empty($results))
         {

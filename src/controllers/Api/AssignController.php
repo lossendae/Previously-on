@@ -10,7 +10,7 @@
 
 namespace Lossendae\PreviouslyOn\Controllers\Api;
 
-use Config, Input, File;
+use Config, File;
 use Lossendae\PreviouslyOn\Models\TvShow;
 use Lossendae\PreviouslyOn\Models\Episode;
 use PHPThumb;
@@ -129,22 +129,6 @@ class AssignController extends BaseController
 
         $episode = Episode::firstOrCreate($toSave);
         $episode->save();
-        if($episode->season_number > 0)
-        {
-            // @todo assign to the current user
-            $this->assignEpisodeToUser($episode);
-        }
-    }
-
-    /**
-     * Attach an episode to the current user
-     *
-     * @param object $episode
-     */
-    protected function assignEpisodeToUser($episode)
-    {
-        $episode->watched()
-                ->attach($this->user->id);
     }
 
     /**
@@ -163,7 +147,6 @@ class AssignController extends BaseController
             File::makeDirectory($cacheDir);
         }
 
-        // @todo - do something actually useful with those checking
         if(!is_dir($targetDir))
         {
             File::makeDirectory($targetDir);

@@ -11,7 +11,6 @@
 namespace Lossendae\PreviouslyOn\Models;
 
 use User as Base;
-use Eloquent;
 
 class User extends Base
 {

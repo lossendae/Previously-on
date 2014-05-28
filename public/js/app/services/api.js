@@ -18,7 +18,7 @@ define(['app'], function (app) {
                 'search': {
                     method: 'GET',
                     isArray : false,
-                    cache: ApiTVShowsSearchCache,
+//                    cache: ApiTVShowsSearchCache,
                     params: {
                         action: 'search'
                     },

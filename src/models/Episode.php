@@ -44,16 +44,20 @@ class Episode extends Eloquent
 
     public function watched()
     {
-        return $this->belongsToMany('User', 'watched_episodes')
-                    ->withPivot('user_id', 'status');
+        return $this->belongsToMany(__NAMESPACE__ . '\\' . 'User', 'watched_episodes')
+                    ->withPivot('user_id');
     }
 
-    public function scopeAssigned($query, $showId, $userId)
+    public function scopeWithStatus($query, $showId, $userId)
     {
-        $query->addSelect('watched_episodes.status')
-              ->join('watched_episodes', 'episodes.id', '=', 'watched_episodes.episode_id')
-              ->where('episodes.tv_show_id', '=', $showId)
-              ->where('watched_episodes.user_id', '=', $userId)
+        $query->addSelect(DB::raw('IF(' . DB::getTablePrefix() . 'watched_episodes.user_id, 1, 0) AS status'))
+              ->leftJoin('watched_episodes', function ($join) use ($userId)
+              {
+                  $join->on('episodes.id', '=', 'watched_episodes.episode_id')
+                       ->where('watched_episodes.user_id', '=', (int) $userId);
+              })
+              ->where('episodes.tv_show_id', '=', (int) $showId)
+              ->where('episodes.season_number', '>', (int) 0)
               ->orderBy('episodes.season_number', 'asc')
               ->orderBy('episodes.episode_number', 'asc');
 

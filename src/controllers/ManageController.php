@@ -10,20 +10,13 @@
 
 namespace Lossendae\PreviouslyOn\Controllers;
 
-use Controller, Config, DB, Auth;
+use Config, Auth;
 use Lossendae\PreviouslyOn\Models\TvShow;
 use Lossendae\PreviouslyOn\Models\Episode;
-use Lossendae\PreviouslyOn\Models\User;
 
-class ManageController extends Controller
+class ManageController extends BaseController
 {
     protected $seasons = array();
-    protected $user;
-
-    public function __construct()
-    {
-        $this->user = Auth::user();
-    }
 
     /**
      * Get the list of the TV shows cached in the db
@@ -32,26 +25,30 @@ class ManageController extends Controller
      */
     public function query()
     {
-        $result = User::where('id', '=', $this->user->id)
-                      ->with(array(
-                'tvShows' => function ($query)
-                    {
-                        $query->notSeen();
-                        $query->orderBy('tv_shows.name');
-                    }
-            ))
-                      ->first();
+        $query  = TvShow::select('tv_shows.*')
+                        ->assignedTo($this->user->id)
+                        ->allWithRemaining($this->user->id);
 
-        /* Important : If i don't "flatten to array, an additional db request is done which completely fuck up the result */
-        $list = $result->toArray();
         $data = [];
-        foreach($list['tv_shows'] as $row)
+        $results = $query->get();
+
+        if(!empty($results))
         {
-            $row['poster']    = Config::get('previously-on::app.assets') . '/images/cache/' . $row['id'] . '/poster-thumb.jpg';
-            $row['remaining'] = (int)$row['remaining'];
-            $row['status']    = $row['remaining'] > 0 ? 1 : 0;
-            $data[]           = $row;
+            foreach($query->get() as $entry)
+            {
+                if(is_null($entry->id))
+                {
+                    break;
+                }
+                $row = $entry->toArray();
+                $row['poster']    = Config::get('previously-on::app.assets') . '/images/cache/' . $entry->id . '/poster-thumb.jpg';
+                $row['remaining'] = (int) $entry->remaining;
+                $row['status']    = $entry->remaining > 0 ? 1 : 0;
+                $data[]           = $row;
+            }
         }
+
+        \Log::debug('DEBUG', [\DB::getQueryLog()]);
 
         $response['success'] = true;
         $response['total']   = count($data);
@@ -70,20 +67,14 @@ class ManageController extends Controller
     {
         $data = $row = [];
 
-        $result = User::where('id', '=', $this->user->id)
-                      ->with(array(
-                'tvShows' => function ($query) use ($id)
-                    {
-                        $query->notSeen($id);
-                    }
-            ))
-                      ->first();
+        $query  = TvShow::select('episodes.*')
+                        ->oneWithRemaining($id, $this->user->id);
+        $result = $query->first();
 
-        $result        = $result->toArray();
-        $data['serie'] = $result['tv_shows'][0];
+        $data['serie'] = $result->toArray();
 
-        $episodes = Episode::select('*')
-                           ->assigned($id, $this->user->id)
+        $episodes = Episode::select('episodes.*')
+                           ->withStatus($id, $this->user->id)
                            ->get();
 
         foreach($episodes as $episode)
