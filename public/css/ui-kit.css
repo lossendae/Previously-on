@@ -382,6 +382,13 @@ tbody > tr > td.checkbox-column {
 
 /********************************* keyframes **************************************/
 
+
+@-webkit-keyframes moveFromTop {
+    from { -webkit-transform: translateY(-100%); }
+}
+@keyframes moveFromTop {
+    from { -webkit-transform: translateY(-100%); transform: translateY(-100%); }
+}
 @-webkit-keyframes moveFromBottom {
     from { -webkit-transform: translateY(100%); }
 }

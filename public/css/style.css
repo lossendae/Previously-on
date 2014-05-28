@@ -10,6 +10,10 @@
     color:      #FFFFFF;
 }
 
+html {
+    height: 100%;
+}
+
 a {
     text-decoration: none;
     color:           inherit;
@@ -53,6 +57,84 @@ h3 {
     min-height: 100%;
 }
 
+/* LOGIN */
+
+body.login,
+.login header {
+    height: 100%;
+}
+
+.login .wrapper {
+    padding-top: 8%;
+}
+
+.login h1 {
+    margin-bottom: 20px;
+    text-align:    center;
+}
+
+.login .splash {
+    -webkit-animation: moveFromTop .6s ease both;
+    animation:         moveFromTop .6s ease both;
+    margin:            0 auto;
+    height:            100%;
+    max-width:         400px;
+}
+
+.login form {
+    padding: 20px;
+}
+
+.login form input {
+    margin-bottom: 20px;
+}
+
+.login .input-error {
+    font-size:     0.9em;
+    margin:        -18px 0px 20px;
+    padding:       5px;
+    background:    none repeat scroll 0% 0% #57595B;
+    border-radius: 2px;
+}
+
+.login .button {
+    margin:         0px;
+    width:          100%;
+    text-transform: uppercase;
+    background:     none repeat scroll 0% 0% #FFB800;
+    color:          #24272C;
+}
+
+.login #main {
+    min-height: 0 !important;
+    height:     0;
+}
+
+.login .logout {
+    display: none;
+}
+
+.submit-error {
+    background:    none repeat scroll 0% 0% #57595B;
+    border-radius: 2px;
+    font-size:     0.9em;
+    margin:        0 0 20px;
+    padding:       10px 20px;
+}
+
+.submit-error p {
+    line-height: 1.5em;
+    margin:      0;
+    padding:     0;
+}
+
+.submit-error h5 {
+    font-size:   1.1em;
+    line-height: 1.6em;
+    margin:      0;
+    padding:     0;
+}
+
 /* HEADER */
 
 header {
@@ -94,6 +176,12 @@ a.top-action {
 
 a.active {
     display: block;
+}
+
+a.logout {
+    display:      block;
+    margin-right: 5px;
+    padding:      10px;
 }
 
 /* MAIN */
@@ -145,8 +233,8 @@ input[type="text"].filter-search {
     float:      left;
     overflow:   hidden;
     transition: opacity 0.6s ease-in-out 0s;
-    margin: 0 1.5% 1.5% 0px;
-    width: 23.85%;
+    margin:     0 1.5% 1.5% 0px;
+    width:      23.85%;
 }
 
 .series li:nth-child(4n+4) {
@@ -197,11 +285,11 @@ input[type="text"].filter-search {
 
 .search-cards img {
     max-height: 90px;
-    width:  100%;
+    width:      100%;
 }
 
 .search-cards .action {
-    padding: 12px 20px 20px;
+    padding:    12px 20px 20px;
     text-align: center;
 }
 
@@ -279,9 +367,9 @@ input[type="text"].filter-search {
 }
 
 .episodes li {
-    float:   left;
+    float:  left;
     margin: 0.5% 0.5% 0px 0px;
-    width: 24.6%;
+    width:  24.6%;
 }
 
 .episodes li:nth-child(4n+4) {
@@ -290,7 +378,7 @@ input[type="text"].filter-search {
 
 .episode-container {
     padding: 10px 15px 5px;
-    border: 1px solid #CBCBCB;
+    border:  1px solid #CBCBCB;
 }
 
 .ep-list-item {
@@ -482,7 +570,7 @@ input[type="text"].filter-search {
 
     .search-cards li {
         margin-right: 0;
-        width: 100%;
+        width:        100%;
     }
 
     .search-cards img {
@@ -499,7 +587,7 @@ input[type="text"].filter-search {
 
     .episodes li {
         margin: 0.6% 0.6% 0px 0px;
-        width: 49.7%;
+        width:  49.7%;
     }
 }
 
@@ -523,13 +611,13 @@ input[type="text"].filter-search {
     }
 
     .series li {
-        width: 49%;
+        width:  49%;
         margin: 0px 2% 2% 0px;
     }
 
     .episodes li {
         margin: 0.5% 0;
-        width: 100%;
+        width:  100%;
     }
 }
 
