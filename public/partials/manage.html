@@ -4,10 +4,12 @@
             Supprimer série<i class="fa fa-times"></i>
         </a>
 
-        <h2>{{ serie.name }}</h2>
+        <h2>{{ serie.name }} - {{ serie.id }}</h2>
 
         <p class="seen" ng-if="serie.remaining == 0">Tout vu</p>
+
         <p class="seen" ng-if="serie.remaining == 1">Un épisode non vu</p>
+
         <p class="seen" ng-if="serie.remaining > 1">{{ serie.remaining }} épisodes non vus</p>
     </div>
 </section>
@@ -37,9 +39,9 @@
                         <label class="ep-list-item" data-ng-show="!episode.disabled">
                             <input type="checkbox" name="seen" class="ep-list-cb" data-ng-model="episode.status" data-ng-change="hasChanged(episode)" data-ng-show="episode.disabled">
                             <span class="ep-list-mark"></span>
-                        <span class="ep-list-desc">Episode {{ episode.episode_number }}
-                            <em>{{ episode.air_date }}</em>
-                        </span>
+                            <span class="ep-list-desc">Episode {{ episode.episode_number }}
+                                <em>{{ episode.air_date }}</em>
+                            </span>
                         </label>
                     </div>
                 </li>

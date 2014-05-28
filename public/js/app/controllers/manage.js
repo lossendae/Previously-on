@@ -11,8 +11,9 @@ define(['app', '../services/data.js'], function (app) {
 
         $scope.removeTvShow = function (s) {
             DataService.removeTvShow({id: s}, {}, function (response) {
-//                console.log(response);
-                $state.transitionTo('index');
+                if(response.success){
+                    $state.transitionTo('index');
+                }
             });
         }
 

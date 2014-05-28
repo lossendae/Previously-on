@@ -42,6 +42,7 @@ define(['app'], function (app) {
 
         // Checking the user session does not use a token
         $rootScope.$on('event:auth-loginRequired', function (e, rejection) {
+
             // Request session only once per cycle
             if(checkSession){
                 authService.check(function (check) {
