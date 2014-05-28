@@ -67,20 +67,14 @@ define(['app'], function (app) {
             updateToken(false);
         });
 
-        // @todo make this more dynamic
         $rootScope.$on('event:auth-logoutSuccess', function (e, response) {
             var check = $cacheFactory.info();
-
-            console.log(check);
-
             angular.forEach(check, function(value, key) {
                 if(value.hasOwnProperty('capacity')){
                     var key = value.id;
                     $cacheFactory.get(key).removeAll();
                 }
             }, check);
-
-            console.log(check);
         });
 
         // Update the session token

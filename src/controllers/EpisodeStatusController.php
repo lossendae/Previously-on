@@ -10,7 +10,6 @@
 
 namespace Lossendae\PreviouslyOn\Controllers;
 
-use Controller, Auth;
 use Lossendae\PreviouslyOn\Models\TvShow;
 use Lossendae\PreviouslyOn\Models\Episode;
 

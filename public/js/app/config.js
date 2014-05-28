@@ -71,7 +71,6 @@ define(['app'], function (app) {
         }]);
 
         // Default route
-        /* @TODO - Send to 404 ? */
         $urlRouterProvider.otherwise('/');
 
     };
