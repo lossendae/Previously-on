@@ -19,8 +19,10 @@ return array(
         // 3rd party
         'ui.router',
         'routeResolver',
+        'authInterceptor',
         'chieffancypants.loadingBar',
         'loadingSpinner',
+        'FormValidation',
     ),
     'files' => array(
         'app',
@@ -28,6 +30,9 @@ return array(
         'start',
 
         // Modules
+        'modules/auth-interceptor',
         'modules/route-resolver',
+        'modules/form-validation',
+        'services/auth',
     ),
 );

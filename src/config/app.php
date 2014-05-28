@@ -9,10 +9,10 @@
 */
 
 return array(
-    'api_key' => '',
+    'api_key' => 'F648B56D7E7A7A9F',
 
     /* The url used as landing page for the application */
-    'uri' => '/',
+    'url_prefix' => '',
 
     /* Path to package in public */
     'assets' => '/packages/lossendae/previously-on',
