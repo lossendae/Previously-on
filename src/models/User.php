@@ -28,6 +28,6 @@ class User extends Base
 
     public function tvShows()
     {
-        return $this->belongsToMany('TvShow', 'assigned_tv_shows')->withPivot('tv_show_id');
+        return $this->belongsToMany(__NAMESPACE__ . '\\' . 'TvShow', 'assigned_tv_shows')->withPivot('tv_show_id');
     }
 }

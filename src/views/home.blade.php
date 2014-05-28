@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A website to manage your TVShows">
 
-    <title>Previously On - TV Shows manager</title>
+    <title>Previously On - Gestionnaire de séries</title>
 
     <link rel="shortcut icon" href="images/favicon.ico">
     {{ HTML::style($cssPath . 'normalize.css') }}
@@ -20,8 +20,6 @@
 <body class="no-js @{{ bodyClass }}">
     <header>
         <div class="wrapper">
-
-
             <a data-ui-sref="index.ajouter-serie" class="top-action add-series" data-ng-class="{ active : $state.is('index') }">
                 Ajouter série<i class="fa fa-plus"></i>
             </a>

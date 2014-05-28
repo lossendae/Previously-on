@@ -42,13 +42,12 @@ class AssignController extends BaseController
             ->where('thetvdb_id', '=', $id)
             ->first();
 
-            // @todo do it with the actual user
-            $tvShow->assigned()
-                    ->attach(2);
+            /* Attach current user to the new TV Show */
+            $this->assignTvShowToUser($tvShow);
 
             foreach($tvShow->episodes as $episode)
             {
-                $this->assignEpisodeToUser($episode, 2);
+                $this->assignEpisodeToUser($episode);
             }
 
             return array('success' => true);
@@ -86,6 +85,9 @@ class AssignController extends BaseController
         $tvShow = TvShow::firstOrCreate($toSave);
         $tvShow->save();
 
+        /* Attach current user to the new TV Show */
+        $this->assignTvShowToUser($tvShow);
+
         /* Create local images */
         $this->createImage($tvShow, $origine);
 
@@ -95,6 +97,17 @@ class AssignController extends BaseController
         }
 
         return array('success' => true);
+    }
+
+    /**
+     * Attach an episode to the current user
+     *
+     * @param object $tvShow
+     */
+    protected function assignTvShowToUser($tvShow)
+    {
+        $tvShow->assigned()
+                ->attach($this->user->id);
     }
 
     /**
@@ -119,7 +132,7 @@ class AssignController extends BaseController
         if($episode->season_number > 0)
         {
             // @todo assign to the current user
-            $this->assignEpisodeToUser($episode, 1);
+            $this->assignEpisodeToUser($episode);
         }
     }
 
@@ -127,12 +140,11 @@ class AssignController extends BaseController
      * Attach an episode to the current user
      *
      * @param object $episode
-     * @param        $user
      */
-    protected function assignEpisodeToUser($episode, $user)
+    protected function assignEpisodeToUser($episode)
     {
         $episode->watched()
-                ->attach($user);
+                ->attach($this->user->id);
     }
 
     /**

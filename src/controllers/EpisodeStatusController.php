@@ -10,12 +10,19 @@
 
 namespace Lossendae\PreviouslyOn\Controllers;
 
-use Controller;
+use Controller, Auth;
 use Lossendae\PreviouslyOn\Models\TvShow;
 use Lossendae\PreviouslyOn\Models\Episode;
 
 class EpisodeStatusController extends Controller
 {
+    protected $user;
+
+    public function __construct()
+    {
+        $this->user = Auth::user();
+    }
+
     /**
      * @param $id
      * @param $status
@@ -35,17 +42,15 @@ class EpisodeStatusController extends Controller
 
         /* Use the pivot table */
         $episode->watched()
-                ->sync(array(1, array('status' => $status)));
+                ->sync(array($this->user->id, array('status' => $status)));
 
         if($episode->save())
         {
             /* Send back the updated remaining number of episode to watch */
-            $watchList = TvShow::remaining($episode->tv_show_id, true);
+            $watchList = TvShow::notSeen($episode->tv_show_id, true);
 
             $response['remaining'] = $watchList->remaining;
             $response['success']   = true;
-
-
         }
 
         return $response;

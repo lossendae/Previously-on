@@ -40,16 +40,6 @@ class TvShow extends Eloquent
      */
     protected $guarded = ['id'];
 
-    public function episodes()
-    {
-        return $this->hasMany('Lossendae\PreviouslyOn\Models\Episode');
-    }
-
-    public function assigned()
-    {
-        return $this->belongsToMany('User', 'assigned_tv_shows')->withPivot('user_id');
-    }
-
     public static function boot()
     {
         parent::boot();
@@ -66,6 +56,17 @@ class TvShow extends Eloquent
         });
     }
 
+    public function episodes()
+    {
+        return $this->hasMany(__NAMESPACE__ . '\\' . 'Episode');
+    }
+
+    public function assigned()
+    {
+        return $this->belongsToMany(__NAMESPACE__ . '\\' . 'User', 'assigned_tv_shows')
+                    ->withPivot('user_id');
+    }
+
     public function scopeSeasons($query)
     {
         return $query->select(DB::raw('COUNT(DISTINCT season_number) as seasons'))
@@ -73,13 +74,13 @@ class TvShow extends Eloquent
                      ->where('season_number', '>', 0);
     }
 
-    public function scopeRemaining($query, $id = 0, $returnResult = false)
+    public function scopeNotSeen($query, $id = 0, $returnResult = false)
     {
-        $remainingEpisodes = 'COUNT(CASE WHEN ' . DB::getTablePrefix() . 'episodes.viewed = 0 AND ';
-        $remainingEpisodes .= DB::getTablePrefix() . 'episodes.season_number > 0 AND ';
+        $remainingEpisodes = 'COUNT(CASE WHEN ' . DB::getTablePrefix() . 'watched_episodes.status = 0 AND ';
         $remainingEpisodes .= DB::getTablePrefix() . 'episodes.first_aired < NOW() THEN 1 END) as remaining';
 
         $query->leftJoin('episodes', 'tv_shows.id', '=', 'episodes.tv_show_id')
+              ->leftJoin('watched_episodes', 'episodes.id', '=', 'watched_episodes.episode_id')
               ->addSelect(DB::raw($remainingEpisodes));
 
         if($id > 0)

@@ -39,21 +39,25 @@ class Episode extends Eloquent
 
     public function tvShow()
     {
-        return $this->belongsTo('Lossendae\PreviouslyOn\Models\tvShow');
+        return $this->belongsTo(__NAMESPACE__ . '\\' . 'tvShow');
     }
 
     public function watched()
     {
-        return $this->belongsToMany('User', 'watched_episodes')->withPivot('user_id', 'status');
+        return $this->belongsToMany('User', 'watched_episodes')
+                    ->withPivot('user_id', 'status');
     }
 
-    public function scopeWatched($query, $id)
+    public function scopeAssigned($query, $showId, $userId)
     {
-        $result = $query->select(DB::raw('COUNT(CASE WHEN viewed = 1 THEN 1 END) as watched'))
-                        ->where('tv_show_id', '=', $id)
-                        ->first();
+        $query->addSelect('watched_episodes.status')
+              ->join('watched_episodes', 'episodes.id', '=', 'watched_episodes.episode_id')
+              ->where('episodes.tv_show_id', '=', $showId)
+              ->where('watched_episodes.user_id', '=', $userId)
+              ->orderBy('episodes.season_number', 'asc')
+              ->orderBy('episodes.episode_number', 'asc');
 
-        return $result->watched;
+        return $query;
     }
 
     public function scopeTotal($query, $id)

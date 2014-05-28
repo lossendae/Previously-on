@@ -10,7 +10,7 @@
 
 namespace Lossendae\PreviouslyOn\Controllers\Api;
 
-use Controller, Config;
+use Controller, Config, Auth;
 use FPN\TheTVDB\HttpClient\Buzz;
 use FPN\TheTVDB\Api;
 use Lossendae\PreviouslyOn\Models\TvShow;
@@ -20,11 +20,13 @@ abstract class BaseController extends Controller
     protected $httpClient;
     protected $api;
     protected $existingIds = array();
+    protected $user;
 
     public function __construct()
     {
         $this->httpClient = new Buzz();
         $this->api        = new Api($this->httpClient, Config::get('previously-on::app.api_key'));
+        $this->user       = Auth::user();
     }
 
     /**

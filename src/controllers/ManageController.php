@@ -10,13 +10,20 @@
 
 namespace Lossendae\PreviouslyOn\Controllers;
 
-use Controller, Config, DB;
+use Controller, Config, DB, Auth;
 use Lossendae\PreviouslyOn\Models\TvShow;
 use Lossendae\PreviouslyOn\Models\Episode;
+use Lossendae\PreviouslyOn\Models\User;
 
 class ManageController extends Controller
 {
     protected $seasons = array();
+    protected $user;
+
+    public function __construct()
+    {
+        $this->user = Auth::user();
+    }
 
     /**
      * Get the list of the TV shows cached in the db
@@ -25,22 +32,24 @@ class ManageController extends Controller
      */
     public function query()
     {
-        $remainingEpisodes = 'COUNT(CASE WHEN ' . DB::getTablePrefix() . 'episodes.viewed = 0 AND ';
-        $remainingEpisodes .= DB::getTablePrefix() . 'episodes.first_aired < NOW() THEN 1 END) as remaining';
+        $result = User::where('id', '=', $this->user->id)
+                      ->with(array(
+                'tvShows' => function ($query)
+                    {
+                        $query->notSeen();
+                        $query->orderBy('tv_shows.name');
+                    }
+            ))
+                      ->first();
 
-        $series = TvShow::select('tv_shows.*')
-                        ->remaining()
-                        ->groupBy('tv_shows.id')
-                        ->orderBy('tv_shows.name')
-                        ->get();
-
+        /* Important : If i don't "flatten to array, an additional db request is done which completely fuck up the result */
+        $list = $result->toArray();
         $data = [];
-        foreach($series as $serie)
+        foreach($list['tv_shows'] as $row)
         {
-            $row              = $serie->toArray();
-            $row['poster']    = Config::get('previously-on::app.assets') . '/images/cache/' . $serie->id . '/poster-thumb.jpg';
-            $row['remaining'] = (int)$serie->remaining;
-            $row['status']    = (int)$serie->remaining > 0 ? 1 : 0;
+            $row['poster']    = Config::get('previously-on::app.assets') . '/images/cache/' . $row['id'] . '/poster-thumb.jpg';
+            $row['remaining'] = (int)$row['remaining'];
+            $row['status']    = $row['remaining'] > 0 ? 1 : 0;
             $data[]           = $row;
         }
 
@@ -61,15 +70,20 @@ class ManageController extends Controller
     {
         $data = $row = [];
 
-        $serie         = TvShow::select('tv_shows.*')
-                               ->remaining($id)
-                               ->first();
-        $data['serie'] = $serie->toArray();
+        $result = User::where('id', '=', $this->user->id)
+                      ->with(array(
+                'tvShows' => function ($query) use ($id)
+                    {
+                        $query->notSeen($id);
+                    }
+            ))
+                      ->first();
 
-        $episodes = Episode::where('tv_show_id', $id)
-                           ->where('season_number', '>', 0)
-                           ->orderBy('season_number', 'asc')
-                           ->orderBy('episode_number', 'asc')
+        $result        = $result->toArray();
+        $data['serie'] = $result['tv_shows'][0];
+
+        $episodes = Episode::select('*')
+                           ->assigned($id, $this->user->id)
                            ->get();
 
         foreach($episodes as $episode)
@@ -103,7 +117,7 @@ class ManageController extends Controller
         $episode['air_date'] = !is_null($episode['first_aired']) ? date('d M Y', strtotime($episode['first_aired'])) : 'TBA';
         $episode['disabled'] = is_null($episode['first_aired']) || strtotime($episode['first_aired']) > strtotime('now') ? 'disabled' : '';
 
-        $episode['viewed'] = $episode['viewed'] ? true : false;
+        $episode['status'] = $episode['status'] ? true : false;
 
         $this->seasons[$season]['episodes'][] = $episode;
     }
@@ -112,9 +126,9 @@ class ManageController extends Controller
      * @param int $id
      * @return array
      */
-    protected function removeTvShow($id)
+    public function removeTvShow($id)
     {
-        $response = ['success' => false];
+        $response = array('success' => false);
         $tvShow   = TvShow::find($id);
         if($tvShow->delete())
         {
