@@ -35,8 +35,7 @@ class SearchController extends BaseController
                     'id'         => $entry->getTheTvDbId(),
                     'name'       => $entry->getName(),
                     'banner_url' => $entry->getBannerUrl(),
-                    'exists'     => false,
-//                    'exists'     => $this->checkId($entry->getTheTvDbId()),
+                    'exists'     => $this->checkId($entry->getTheTvDbId()),
                 ];
             }
             $response['success'] = true;

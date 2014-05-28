@@ -142,6 +142,7 @@ class AssignController extends BaseController
         $cacheDir  = Config::get('previously-on::app.assets_path') . '/images/cache/';
         $targetDir = $cacheDir . $obj->id . '/';
 
+
         if(!is_dir($cacheDir))
         {
             File::makeDirectory($cacheDir);
@@ -156,15 +157,36 @@ class AssignController extends BaseController
         $extension = '.jpg';
         $target    = $targetDir . $name . $extension;
 
-        copy($original->getPosterUrl(), $target);
+        $check = $this->checkRemoteImageSource($original->getPosterUrl());
 
-        /* Resize the image */
-        $targetThumb = $targetDir . $name . '-thumb' . $extension;
-        $options     = array(
-            'jpegQuality' => 90,
-        );
-        $thumb       = new PHPThumb\GD($target, $options);
-        $thumb->resize(210, 310);
-        $thumb->save($targetThumb);
+        if($check < 1)
+        {
+            /* Use a fallback poster image when there is no poster from the remote API server */
+            copy(Config::get('previously-on::app.assets_path') . '/images/fallback-poster.jpg', $targetThumb = $targetDir . $name . '-thumb' . $extension);
+        }
+        else
+        {
+            copy($original->getPosterUrl(), $target);
+
+            /* Resize the image */
+            $targetThumb = $targetDir . $name . '-thumb' . $extension;
+            $options     = array(
+                'jpegQuality' => 90,
+            );
+            $thumb       = new PHPThumb\GD($target, $options);
+            $thumb->cropFromCenter(225, 330);
+            $thumb->save($targetThumb);
+        }
+    }
+
+    /**
+     * Check the poster value to avoid error on PHPthumb the banner url
+     *
+     * @param $source
+     * @return int
+     */
+    protected function checkRemoteImageSource($source)
+    {
+        return strlen(str_replace('http://www.thetvdb.com/banners/', '', $source));
     }
 }

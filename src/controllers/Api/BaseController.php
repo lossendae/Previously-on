@@ -40,8 +40,9 @@ abstract class BaseController extends Controller
         if(empty($this->existingIds))
         {
             $idsObj = TvShow::select('thetvdb_id')
-                            ->distinct()
+                            ->assignedTo($this->user->id)
                             ->get();
+
             foreach($idsObj as $entry)
             {
                 $this->existingIds[] = $entry->thetvdb_id;

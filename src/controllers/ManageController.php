@@ -10,9 +10,10 @@
 
 namespace Lossendae\PreviouslyOn\Controllers;
 
-use Config;
+use Config, DB;
 use Lossendae\PreviouslyOn\Models\TvShow;
 use Lossendae\PreviouslyOn\Models\Episode;
+use Lossendae\PreviouslyOn\Models\User;
 
 class ManageController extends BaseController
 {
@@ -25,11 +26,13 @@ class ManageController extends BaseController
      */
     public function query()
     {
-        $query  = TvShow::select('tv_shows.*')
-                        ->assignedTo($this->user->id)
-                        ->allWithRemaining($this->user->id);
+        $query = TvShow::select('tv_shows.*')
+                       ->assignedTo($this->user->id)
+                       ->allWithRemaining($this->user->id)
+                       ->orderBy('tv_shows.name')
+                       ->groupBy('tv_shows.id');
 
-        $data = [];
+        $data    = [];
         $results = $query->get();
 
         if(!empty($results))
@@ -40,15 +43,13 @@ class ManageController extends BaseController
                 {
                     break;
                 }
-                $row = $entry->toArray();
+                $row              = $entry->toArray();
                 $row['poster']    = Config::get('previously-on::app.assets') . '/images/cache/' . $entry->id . '/poster-thumb.jpg';
-                $row['remaining'] = (int) $entry->remaining;
+                $row['remaining'] = (int)$entry->remaining;
                 $row['status']    = $entry->remaining > 0 ? 1 : 0;
                 $data[]           = $row;
             }
         }
-
-        \Log::debug('DEBUG', [\DB::getQueryLog()]);
 
         $response['success'] = true;
         $response['total']   = count($data);
@@ -67,7 +68,7 @@ class ManageController extends BaseController
     {
         $data = $row = [];
 
-        $query  = TvShow::select('episodes.*')
+        $query  = TvShow::select('tv_shows.*')
                         ->oneWithRemaining($id, $this->user->id);
         $result = $query->first();
 
@@ -114,6 +115,8 @@ class ManageController extends BaseController
     }
 
     /**
+     * This is not an elegant process but hey : ship first, refactor if necessary later
+     *
      * @param int $id
      * @return array
      */
@@ -121,11 +124,44 @@ class ManageController extends BaseController
     {
         $response = array('success' => false);
         $tvShow   = TvShow::find($id);
-        if($tvShow->delete())
+
+        if(!is_object($tvShow))
         {
-            $response['success'] = true;
+            return array_merge($response, array('message' => 'Error while trying to delete the TV show'));
         }
 
-        return $response;
+        User::find($this->user->id)
+            ->tvShows()
+            ->detach($id);
+
+        /* Delete the Tv show association to the user */
+        $episodes = Episode::select('id')
+                           ->where('tv_show_id', '=', $id);
+
+        /* Same process for the episodes */
+        $ids = array();
+        foreach($episodes->get() as $episode)
+        {
+            $ids[] = $episode->id;
+        }
+
+        DB::table('watched_episodes')
+          ->whereIn('episode_id', $ids)
+          ->where('user_id', '=', $this->user->id)
+          ->delete();
+
+        /* Let's check if the tv show is still attached to another user - if not delete */
+        $total = DB::table('assigned_tv_shows')
+                   ->where('tv_show_id', '=', $id)
+                   ->count();
+
+        /* The model will handle cascading trough the episodes and image poster */
+        if($total == 0)
+        {
+            $tvShow->delete();
+        }
+
+
+        return array('success' => true);
     }
 }

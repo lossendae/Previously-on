@@ -29,4 +29,9 @@ class User extends Base
     {
         return $this->belongsToMany(__NAMESPACE__ . '\\' . 'TvShow', 'assigned_tv_shows')->withPivot('tv_show_id');
     }
+
+    public function episodes()
+    {
+        return $this->belongsToMany(__NAMESPACE__ . '\\' . 'Episode', 'watched_episodes')->withPivot('episode_id');
+    }
 }
