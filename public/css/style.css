@@ -135,6 +135,10 @@ body.login,
     padding:     0;
 }
 
+.login .top-action {
+    display: none !important;
+}
+
 /* HEADER */
 
 header {

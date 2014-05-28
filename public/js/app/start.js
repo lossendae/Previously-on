@@ -9,6 +9,7 @@ define(['app'], function (app) {
         var attemptedState;
         var initialLoad = true;
         var checkSession = true;
+        $rootScope.bodyClass = 'login'
 
         $rootScope.$on('$stateChangeStart',
             function (ev, to, toParams, from, fromParams) {
@@ -28,8 +29,6 @@ define(['app'], function (app) {
                 // Handle body css class if necessary
                 if (angular.isDefined(to.data) && angular.isDefined(to.data.bodyClass)) {
                     $rootScope.bodyClass = to.data.bodyClass;
-                } else {
-                    $rootScope.bodyClass = '';
                 }
             });
 
@@ -75,6 +74,7 @@ define(['app'], function (app) {
                 $window.sessionStorage['_token'] = response['_token'];
 
                 // Resume pending request if any
+                $rootScope.bodyClass = '';
                 authInterceptor.loginConfirmed();
 
                 sendForward();

@@ -18,8 +18,8 @@ define(['app', '../services/data.js'], function (app) {
 
         $scope.markAsWatched = function (season) {
             angular.forEach(season.episodes, function(value, key) {
-                if(!value.viewed && !value.disabled){
-                    value.viewed = true;
+                if(!value.status && !value.disabled){
+                    value.status = true;
                     $scope.hasChanged(value);
                 }
             }, season);
@@ -28,7 +28,7 @@ define(['app', '../services/data.js'], function (app) {
         $scope.hasChanged = function (episode) {
             var p = {
                 id: episode.id,
-                action: episode.viewed ? 1 : 0
+                action: episode.status ? 1 : 0
             }
             DataService.updateEpisodeStatus(p, {}, function (response) {
                 $scope.serie.remaining = response.remaining;

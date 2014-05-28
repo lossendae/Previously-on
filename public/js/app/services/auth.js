@@ -39,13 +39,15 @@ define(['app'], function (app) {
 
     app.factory('authService', ['$resource', '$rootScope', '$state', authService]);
 
-    var logOut = function(authService) {
+    var logOut = function($cacheFactory, authService) {
         return function (scope, element) {
             element.bind('click', function(){
+                var $httpDefaultCache = $cacheFactory.get('$http');
+                $httpDefaultCache.removeAll();
                 authService.logOut();
             });
         }
     };
 
-    app.directive('logOut', ['authService', logOut]);
+    app.directive('logOut', ['$cacheFactory','authService', logOut]);
 });

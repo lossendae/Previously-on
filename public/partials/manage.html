@@ -17,10 +17,10 @@
     <div class="wrapper">
         <div class="season-block cf" data-ng-repeat="(key, season) in seasons">
             <h3>
-                <a href="" data-ng-click="markAsWatched(season)" class="season-status" data-ng-show="(season.episodes | filter:{viewed: false} ).length > 0">
+                <a href="" data-ng-click="markAsWatched(season)" class="season-status" data-ng-show="(season.episodes | filter:{status: false} ).length > 0">
                     <i class="fa fa-eye"></i>
                 </a>
-                <span class="season-status completed" data-ng-show="(season.episodes | filter:{viewed: false} ).length == 0">
+                <span class="season-status completed" data-ng-show="(season.episodes | filter:{status: false} ).length == 0">
                     <i class="fa fa-check"></i>
                 </span>
                 Saison {{ key }}
@@ -35,7 +35,7 @@
                         </span>
                         </div>
                         <label class="ep-list-item" data-ng-show="!episode.disabled">
-                            <input type="checkbox" name="seen" class="ep-list-cb" data-ng-model="episode.viewed" data-ng-change="hasChanged(episode)" data-ng-show="episode.disabled">
+                            <input type="checkbox" name="seen" class="ep-list-cb" data-ng-model="episode.status" data-ng-change="hasChanged(episode)" data-ng-show="episode.disabled">
                             <span class="ep-list-mark"></span>
                         <span class="ep-list-desc">Episode {{ episode.episode_number }}
                             <em>{{ episode.air_date }}</em>
