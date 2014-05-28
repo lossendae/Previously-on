@@ -81,6 +81,7 @@ $ php artisan pvon:update
 - [ ] Improve interactions (buttons...)
 - [ ] Multi language support
 - [ ] Delete confirm modal
+- [ ] Small refactor of token mismatch renewal
 
 ## License
 
