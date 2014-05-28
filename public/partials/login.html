@@ -1,0 +1,19 @@
+<div data-loading-spinner data-wait>
+    <form name="loginForm" novalidate data-validate-submit="login()">
+
+        <div data-validation-server-messages></div>
+
+        <input type="text" name="username" placeholder="Username" required data-autofill data-ng-model="user.username"/>
+
+        <div data-validation-messages="username"></div>
+
+        <input type="password" name="pwd" placeholder="Password" required data-ng-minlength="6" data-ng-maxlength="18" data-autofill data-ng-model="user.pwd" />
+
+        <div data-validation-messages="pwd"></div>
+
+        <div class="clearfix">
+            <button type="submit" class="button button-green right">Login</button>
+        </div>
+    </form>
+</div>
+

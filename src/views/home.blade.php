@@ -17,9 +17,11 @@
     {{ HTML::script($libsPath . 'html5.js') }}
     <![endif]-->
 </head>
-<body class="no-js">
+<body class="no-js @{{ bodyClass }}">
     <header>
         <div class="wrapper">
+
+
             <a data-ui-sref="index.ajouter-serie" class="top-action add-series" data-ng-class="{ active : $state.is('index') }">
                 Ajouter série<i class="fa fa-plus"></i>
             </a>
@@ -32,7 +34,13 @@
                 <i class="fa fa-times"></i> Retour liste
             </a>
 
+            <a href="" class="logout top-action" data-log-out>
+                <i class="fa fa-power-off"></i>
+            </a>
+
             <h1><a data-ui-sref="index">Previously On</a></h1>
+
+            <div class="splash" ui-view="auth"></div>
         </div>
     </header>
 
