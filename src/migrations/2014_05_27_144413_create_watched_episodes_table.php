@@ -19,12 +19,9 @@ class CreateWatchedEpisodesTable extends Migration
                   ->unsigned();
             $table->integer('user_id')
                   ->unsigned();
-            $table->tinyInteger('status')
-                  ->default(0);
 
             $table->index('episode_id');
             $table->index('user_id');
-            $table->index('status');
         });
     }
 
