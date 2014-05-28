@@ -70,17 +70,15 @@ The default route for the app require you to remove the default route from Larav
 $ php artisan pvon:update
 ```
 
-## Todo before release
+## Todos before release
 
-- [ ] Table refactor for multi user usage
-- [ ] Auth implementation using Sentry
 - [ ] Error message for API search
 - [ ] Auto update show schedule
 
-## Todo
+## Todos
 
 - [ ] Schedule page
-- [ ] Improve interactions (buttons & responsive behaviours)
+- [ ] Improve interactions (buttons...)
 - [ ] Multi language support
 - [ ] Delete confirm modal
 
