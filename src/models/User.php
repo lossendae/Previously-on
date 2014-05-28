@@ -15,7 +15,6 @@ use Eloquent;
 
 class User extends Base
 {
-    public $timestamps = false;
     /**
      * Defining fillable attributes on the model
      *
