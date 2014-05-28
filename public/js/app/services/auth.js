@@ -3,12 +3,13 @@
 define(['app'], function (app) {
 
     var authService = function ($resource, $rootScope, $state) {
-        return $resource('/{{ api }}/auth/:action', null,
+        return $resource('/auth/:action', null,
             {
                 'logIn': {
                     method: 'POST',
                     withCredentials: true,
-                    params: {'action': 'login'}
+                    params: {'action': 'login'},
+                    loadingIndicator : true
                 },
                 'logOut': {
                     method: 'GET',
@@ -18,7 +19,8 @@ define(['app'], function (app) {
                             $state.transitionTo('index.login');
                         }
                     },
-                    params: {'action': 'logout'}
+                    params: {'action': 'logout'},
+                    loadingIndicator : true
                 },
                 'token': {
                     method: 'GET',
@@ -36,4 +38,14 @@ define(['app'], function (app) {
     };
 
     app.factory('authService', ['$resource', '$rootScope', '$state', authService]);
+
+    var logOut = function(authService) {
+        return function (scope, element) {
+            element.bind('click', function(){
+                authService.logOut();
+            });
+        }
+    };
+
+    app.directive('logOut', ['authService', logOut]);
 });

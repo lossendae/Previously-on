@@ -27,7 +27,19 @@ define(['app'], function (app) {
             .state('index', {
                 url: "/",
                 views: {
-                    "main": route.resolve('home')
+                    "main": route.resolve('home'),
+                    "head": ''
+                }
+            })
+
+            .state('index.login', {
+                url: "login",
+                views: {
+                    "auth@": route.resolve('login'),
+                    "main@": ''
+                },
+                data: {
+                    bodyClass: 'login'
                 }
             })
 
@@ -45,9 +57,23 @@ define(['app'], function (app) {
                 }
             });
 
+
+        $httpProvider.interceptors.push(['$rootScope', '$q', '$window', function($rootScope, $q, $window) {
+            return {
+                request: function (config) {
+                    config.headers = config.headers || {};
+                    if ($window.sessionStorage['_token']) {
+                        config.headers['X-XSRF-TOKEN'] = $window.sessionStorage['_token'];
+                    }
+                    return config;
+                }
+            };
+        }]);
+
         // Default route
         /* @TODO - Send to 404 ? */
         $urlRouterProvider.otherwise('/');
+
     };
 
     app.config([
