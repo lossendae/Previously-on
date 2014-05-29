@@ -5,7 +5,7 @@ define(['app'], function (app) {
     var authService = function ($resource, $rootScope, $state) {
         var clearCache = function(response){
             if (response.status = 200 && !response.data.logged) {
-                $rootScope.$broadcast('event:auth-logoutSuccess', response.data);
+                $rootScope.$broadcast('event:auth-loginRequired', response.data);
             }
             return response.data;
         };

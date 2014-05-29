@@ -15,6 +15,8 @@ use Lossendae\PreviouslyOn\Services\Validators\User as UserValidator;
 
 class AuthController extends Controller
 {
+    use \Lossendae\PreviouslyOn\Helpers\ResponseFormatter;
+
     /**
      * @return array
      */
@@ -48,26 +50,5 @@ class AuthController extends Controller
         Auth::logout();
 
         return array('logged' => false);
-    }
-
-    /**
-     * Add validation error
-     * @todo Should be in a trait
-     *
-     * @param  string
-     * @return array
-     */
-    protected function formatErrors($errors)
-    {
-        $result = array();
-
-        foreach($errors as $key => $messages)
-        {
-            $result[] = array(
-                'title' => $key, 'messages' => $messages,
-            );
-        }
-
-        return $result;
     }
 }

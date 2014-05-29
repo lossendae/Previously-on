@@ -42,6 +42,7 @@ define(['app'], function (app) {
 
         // Checking the user session does not use a token
         $rootScope.$on('event:auth-loginRequired', function (e, rejection) {
+            clearCache();
 
             // Request session only once per cycle
             if(checkSession){
@@ -68,7 +69,7 @@ define(['app'], function (app) {
             updateToken(false);
         });
 
-        $rootScope.$on('event:auth-logoutSuccess', function (e, response) {
+        var clearCache = function() {
             var check = $cacheFactory.info();
             angular.forEach(check, function(value, key) {
                 if(value.hasOwnProperty('capacity')){
@@ -76,24 +77,7 @@ define(['app'], function (app) {
                     $cacheFactory.get(key).removeAll();
                 }
             }, check);
-        });
-
-        // Update the session token
-        var updateToken = function(flag) {
-            flag = angular.isDefined(flag) ? flag :  true;
-            authService.token(function (response) {
-                $window.sessionStorage['_token'] = response['_token'];
-
-                // Resume pending request if any
-                $rootScope.bodyClass = '';
-                authInterceptor.loginConfirmed();
-
-                sendForward();
-                if (flag) {
-                    updateSession();
-                }
-            });
-        };
+        }
 
         // Resume user action
         var sendForward = function () {
@@ -109,6 +93,23 @@ define(['app'], function (app) {
             authService.session(function (session) {
                 $rootScope.loggedUser = session.user;
                 $rootScope.showSplash = false;
+            });
+        };
+
+        // Update the session token
+        var updateToken = function(flag) {
+            flag = angular.isDefined(flag) ? flag :  true;
+            authService.token(function (response) {
+                $window.sessionStorage['_token'] = response['_token'];
+
+                // Resume pending request if any
+                $rootScope.bodyClass = '';
+                authInterceptor.loginConfirmed();
+
+                sendForward();
+                if (flag) {
+                    updateSession();
+                }
             });
         };
     };

@@ -15,7 +15,6 @@ This package require the Laravel framework and a MySQL database.
 
 The following versions of PHP are supported by this version.
 
-* PHP 5.3
 * PHP 5.4
 * PHP 5.5
 * PHP 5.6
@@ -51,7 +50,8 @@ $ php artisan pvon:install
 
 ### Create the application admin
 
-The first user will be added to the “Admin” group, to allow you an access to all features and the admin dashboard.
+For now the system use the native user driver bundled with the framework.
+Create any user you need via the CLI with access to all features.
 
 ``` bash
 $ php artisan pvon:admin username email password
@@ -59,9 +59,7 @@ $ php artisan pvon:admin username email password
 
 You can access to the login page : `http://your-url/`
 
-Or the admin page : `http://your-url/admin`
-
-Both routes can be changed to your preference via the config file in `app/config/packages/lossendae/previously-on/config.php`.
+Routes can be changed to your preference via the config file in `app/config/packages/lossendae/previously-on/config.php`.
 The default route for the app require you to remove the default route from Laravel setup in `app/routes.php`.
 
 ### Update command
@@ -74,6 +72,7 @@ $ php artisan pvon:update
 
 - [ ] Error message for API search
 - [ ] Auto update show schedule
+- [ ] Make it maintainable
 
 ## Todos
 
@@ -81,7 +80,7 @@ $ php artisan pvon:update
 - [ ] Improve interactions (buttons...)
 - [ ] Multi language support
 - [ ] Delete confirm modal
-- [ ] Small refactor of token mismatch renewal
+- [ ] Make it pluggable to 3rd party user management
 
 ## License
 
