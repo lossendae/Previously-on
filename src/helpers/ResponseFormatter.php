@@ -13,7 +13,6 @@ trait ResponseFormatter
 {
     /**
      * Add validation error
-     * @todo Should be in a trait
      *
      * @param  string
      * @return array
