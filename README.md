@@ -48,7 +48,7 @@ Add `Lossendae\PreviouslyOn\PreviouslyOnServiceProvider` to the end of the $prov
 $ php artisan pvon:install
 ```
 
-### Create the application admin
+### Create the application users
 
 For now the system use the native user driver bundled with the framework.
 Create any user you need via the CLI with access to all features.
@@ -62,6 +62,12 @@ You can access to the login page : `http://your-url/`
 Routes can be changed to your preference via the config file in `app/config/packages/lossendae/previously-on/config.php`.
 The default route for the app require you to remove the default route from Laravel setup in `app/routes.php`.
 
+You will also need to change the model key for the User class in auth config in `app/config/auth.php` to :
+
+```
+    'model' => 'Lossendae\PreviouslyOn\Models\User',
+```
+
 ### Update command
 
 ``` bash
@@ -73,6 +79,7 @@ $ php artisan pvon:update
 - [ ] Error message for API search
 - [ ] Auto update show schedule
 - [ ] Make it maintainable
+- [ ] Change config to use the supplied user model (reduce db calls)
 
 ## Todos
 
