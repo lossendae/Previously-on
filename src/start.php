@@ -8,6 +8,8 @@
 * file that was distributed with this source code.
 */
 
+include (__DIR__ . '/events.php');
+
 include (__DIR__ . '/routes.php');
 
 include (__DIR__ . '/filters.php');
