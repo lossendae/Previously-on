@@ -16,6 +16,7 @@ class IndexPageController extends BaseController
 {
     public function index()
     {
+        // @todo refactor to something more readable / maintenable / clean
         return View::make(Config::get('previously-on::app.index'), array(
             'cssPath'      => Config::get('previously-on::app.assets') . '/css/',
             'libsPath'     => Config::get('previously-on::app.assets') . '/js/libs/',

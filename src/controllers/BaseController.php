@@ -11,13 +11,25 @@
 namespace Lossendae\PreviouslyOn\Controllers;
 
 use Controller, Auth;
+use Illuminate\Container\Container;
 
 class BaseController extends Controller
 {
+    /**
+     * @var \Illuminate\Container\Container
+     */
+    protected $app;
+    /**
+     * @var $user \User;
+     */
     protected $user;
 
-    public function __construct()
+    /**
+     * @param Container $app
+     */
+    function __construct(Container $app)
     {
+        $this->app = $app;
         $this->user = Auth::user();
     }
 }

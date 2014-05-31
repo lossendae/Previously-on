@@ -26,36 +26,7 @@ class ManageController extends BaseController
      */
     public function query()
     {
-        $query = TvShow::select('tv_shows.*')
-                       ->assignedTo($this->user->id)
-                       ->allWithRemaining($this->user->id)
-                       ->orderBy('tv_shows.name')
-                       ->groupBy('tv_shows.id');
-
-        $data    = [];
-        $results = $query->get();
-
-        if(!empty($results))
-        {
-            foreach($query->get() as $entry)
-            {
-                if(is_null($entry->id))
-                {
-                    break;
-                }
-                $row              = $entry->toArray();
-                $row['poster']    = Config::get('previously-on::app.assets') . '/images/cache/' . $entry->id . '/poster-thumb.jpg';
-                $row['remaining'] = (int)$entry->remaining;
-                $row['status']    = $entry->remaining > 0 ? 1 : 0;
-                $data[]           = $row;
-            }
-        }
-
-        $response['success'] = true;
-        $response['total']   = count($data);
-        $response['data']    = $data;
-
-        return $response;
+        return $this->app['tvshow.service']->getList($this->user);
     }
 
     /**
