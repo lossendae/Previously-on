@@ -31,8 +31,31 @@ class EpisodeRepository extends EloquentRepository
     public function listAll($id, $userId)
     {
         $query = $this->model->select('episodes.*')
-                        ->withStatus($id, $userId);
+                             ->withStatus($id, $userId);
 
         return $query->get();
+    }
+
+    /**
+     * Delete all the watch status(es) for a tv show related to a specified user
+     *
+     * @param $id
+     * @param $userId
+     */
+    public function deleteEpisodesFor($id, $userId)
+    {
+        $episodes = $this->model->select('id')
+                                ->where('tv_show_id', '=', $id);
+
+        $ids = array();
+        foreach($episodes->get() as $episode)
+        {
+            $ids[] = $episode->id;
+        }
+
+        $this->app['db']->table('watched_episodes')
+          ->whereIn('episode_id', $ids)
+          ->where('user_id', '=', $userId)
+          ->delete();
     }
 } 

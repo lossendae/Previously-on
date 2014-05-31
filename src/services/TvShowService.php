@@ -66,4 +66,41 @@ class TvShowService extends Base
 
         return $this->success(array('tv_show' => $result->toArray()));
     }
+
+    /**
+     * This is not an elegant process but hey : ship first, refactor if necessary later
+     *
+     * @param int $id
+     * @return array
+     */
+    public function remove($id)
+    {
+        $tvShowRepository  =& $this->app['tvshow.repository'];
+        $episodeRepository =& $this->app['episode.repository'];
+
+        $tvShow = $tvShowRepository->find($id);
+
+        if(!is_object($tvShow))
+        {
+            return $this->failure(array('message' => 'Error while trying to delete the TV show'));
+        }
+
+        /* Delete the related episodes association */
+        $episodeRepository->deleteEpisodesFor($id, $this->user->id);
+
+        /* Detach the tv show from the current logged user */
+        $this->user->tvShows()
+                   ->detach($id);
+
+        /* Let's check if the tv show is still attached to another user */
+        $assigned = $tvShowRepository->getTotalAssigned($id);
+
+        /* The model will handle cascading trough the episodes and image poster */
+        if((int)$assigned == 0)
+        {
+            $tvShow->delete();
+        }
+
+        return $this->success();
+    }
 }

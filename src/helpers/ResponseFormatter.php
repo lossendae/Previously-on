@@ -19,12 +19,7 @@ trait ResponseFormatter
      */
     public function success($return = array())
     {
-        if(!empty($return))
-        {
-            $response = array_merge(array('success' => true), $return);
-        }
-
-        return $response;
+        return array_merge(array('success' => true), $return);
     }
 
     /**

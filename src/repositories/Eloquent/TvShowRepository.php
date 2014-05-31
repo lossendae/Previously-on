@@ -63,4 +63,17 @@ class TvShowRepository extends EloquentRepository
     {
         return $this->model->oneWithRemaining($id, $userId, true);
     }
+
+    /**
+     * Count the number of user assigned to a tv show
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function getTotalAssigned($id)
+    {
+        return $this->app['db']->table('assigned_tv_shows')
+                               ->where('tv_show_id', '=', $id)
+                               ->count();
+    }
 } 
