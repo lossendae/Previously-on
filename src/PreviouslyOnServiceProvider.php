@@ -12,6 +12,7 @@ namespace Lossendae\PreviouslyOn;
 use Illuminate\Support\ServiceProvider as ServiceProvider;
 use Lossendae\PreviouslyOn\Repositories\Eloquent\TvShowRepository;
 use Lossendae\PreviouslyOn\Repositories\Eloquent\EpisodeRepository;
+use Lossendae\PreviouslyOn\Services\ApiService;
 use Lossendae\PreviouslyOn\Services\TvShowService;
 use Lossendae\PreviouslyOn\Services\EpisodeService;
 
@@ -90,6 +91,10 @@ class PreviouslyOnServiceProvider extends ServiceProvider
         $this->app->bind('episode.service', function($app)
         {
             return new EpisodeService($app);
+        });
+        $this->app->bind('api.service', function($app)
+        {
+            return new ApiService($app);
         });
 
         // Add repositories
