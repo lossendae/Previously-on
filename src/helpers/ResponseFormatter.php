@@ -12,40 +12,16 @@ namespace Lossendae\PreviouslyOn\Helpers;
 trait ResponseFormatter
 {
     /**
-     * Add validation error
-     *
-     * @param  string
-     * @return array
-     */
-    protected function formatErrors($errors)
-    {
-        $result = array();
-
-        foreach($errors as $key => $messages)
-        {
-            $result[] = array(
-                'title' => $key, 'messages' => $messages,
-            );
-        }
-
-        return $result;
-    }
-
-    /**
      * Return a success message from the controller.
      *
-     * @param string $msg
-     * @param array  $data
+     * @param array $return
      * @return array
      */
-    public function success($msg, $data = array())
+    public function success($return = array())
     {
-        $response = array(
-            'success' => true, 'message' => $msg
-        );
-        if(!empty($data))
+        if(!empty($return))
         {
-            $response['data'] = $data;
+            $response = array_merge(array('success' => true), $return);
         }
 
         return $response;
