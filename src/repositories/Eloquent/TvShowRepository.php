@@ -51,4 +51,16 @@ class TvShowRepository extends EloquentRepository
                            ->oneWithRemaining($id, $userId)
                            ->first();
     }
+
+    /**
+     * Get one Tv Show by the specified tv show id and user id
+     *
+     * @param $id
+     * @param $userId
+     * @return mixed
+     */
+    public function getOneWithRemaining($id, $userId)
+    {
+        return $this->model->oneWithRemaining($id, $userId, true);
+    }
 } 

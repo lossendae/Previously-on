@@ -21,10 +21,9 @@ use Lossendae\PreviouslyOn\Helpers\ValidationResponseFormatter;
  */
 abstract class Base
 {
-    /**
-     * @var
-     */
     protected $config;
+
+    protected $user;
 
     /**
      * @var \Illuminate\Container\Container
@@ -41,5 +40,6 @@ abstract class Base
     {
         $this->app    = $app;
         $this->config = $this->app['config'];
+        $this->user = $this->app['auth']->user();
     }
 }

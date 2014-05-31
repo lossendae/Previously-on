@@ -43,7 +43,7 @@ abstract class EloquentRepository
      */
     public function create(array $attributes)
     {
-        return $this->model->create(array($attributes));
+        return $this->model->create($attributes);
     }
 
     /**
@@ -52,7 +52,7 @@ abstract class EloquentRepository
      */
     public function all($columns = array('*'))
     {
-        return $this->model->all(array($columns));
+        return $this->model->all($columns);
     }
 
     /**
@@ -62,7 +62,17 @@ abstract class EloquentRepository
      */
     public function find($id, $columns = array('*'))
     {
-        return $this->model->find(array($id, $columns));
+        return $this->model->find($id, $columns);
+    }
+
+    /**
+     * @param       $id
+     * @param array $columns
+     * @return mixed
+     */
+    public function findOrFail($id, $columns = array('*'))
+    {
+        return $this->model->findOrFail($id, $columns);
     }
 
     /**
@@ -71,6 +81,6 @@ abstract class EloquentRepository
      */
     public function delete($id)
     {
-        return $this->model->delete(array($id));
+        return $this->model->delete($id);
     }
 } 

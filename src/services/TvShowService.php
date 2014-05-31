@@ -26,12 +26,11 @@ class TvShowService extends Base
     /**
      * Get a list of tv show for the specified user
      *
-     * @param User $user
      * @return array
      */
-    public function getList(User $user)
+    public function getList()
     {
-        $results = $this->app['tvshow.repository']->listAll($user->id);
+        $results = $this->app['tvshow.repository']->listAll($this->user->id);
 
         if(!empty($results))
         {
@@ -59,12 +58,11 @@ class TvShowService extends Base
      * Get a single Tv show and the remaining number of unseen episode(s)
      *
      * @param $id
-     * @param $user
      * @return array
      */
-    public function getOne($id, $user)
+    public function getOne($id)
     {
-        $result = $this->app['tvshow.repository']->getOne($id, $user->id);
+        $result = $this->app['tvshow.repository']->getOne($id, $this->user->id);
 
         return $this->success(array('tv_show' => $result->toArray()));
     }

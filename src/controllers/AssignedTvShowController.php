@@ -28,7 +28,7 @@ class AssignedTvShowController extends BaseController
      */
     public function getList()
     {
-        return $this->app['tvshow.service']->getList($this->user);
+        return $this->app['tvshow.service']->getList();
     }
 
     /**
@@ -39,8 +39,8 @@ class AssignedTvShowController extends BaseController
      */
     public function manage($id)
     {
-        $result = $this->app['tvshow.service']->getOne($id, $this->user);
-        $result = array_merge($result, $this->app['episode.service']->getList($id, $this->user));
+        $result = $this->app['tvshow.service']->getOne($id);
+        $result = array_merge($result, $this->app['episode.service']->getList($id));
 
         return $result;
     }

@@ -27,12 +27,11 @@ class EpisodeService extends Base
      * Get all the episode and watch status
      *
      * @param $id
-     * @param $user
      * @return array
      */
-    public function getList($id, $user)
+    public function getList($id)
     {
-        $episodes = $this->app['episode.repository']->listAll($id, $user->id);
+        $episodes = $this->app['episode.repository']->listAll($id, $this->user->id);
 
         foreach($episodes as $episode)
         {
@@ -63,5 +62,45 @@ class EpisodeService extends Base
         $episode['status'] = $episode['status'] ? true : false;
 
         $this->seasons[$season]['episodes'][] = $episode;
+    }
+
+    /**
+     * Update an episode watch status
+     *
+     * @param $id
+     * @param $status
+     * @return array
+     */
+    public function updateStatus($id, $status)
+    {
+        $episode = $this->app['episode.repository']->findOrFail($id, array('id', 'first_aired', 'tv_show_id'));
+
+        /* Double check : we don't update the watch status of an un-aired episode */
+        if(strtotime($episode->first_aired) > strtotime('now'))
+        {
+            return $this->failure("Cet épisode n'a pas encore été diffusé");
+        }
+
+        /* Use the pivot table */
+        if($status)
+        {
+            $episode->watched()
+                    ->attach($this->user->id);
+        }
+        else
+        {
+            $episode->watched()
+                    ->detach($this->user->id);
+        }
+
+        if($episode->save())
+        {
+            /* Send back the updated remaining number of episode to watch */
+            $watchList = $this->app['tvshow.repository']->getOneWithRemaining($episode->tv_show_id, $this->user->id, true);
+
+            return $this->success(array('remaining' => $watchList->remaining));
+        }
+
+        return $this->failure("Le status de l'épisode n'a pas pû être mis à jour");
     }
 }
