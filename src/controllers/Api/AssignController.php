@@ -174,7 +174,7 @@ class AssignController extends BaseController
                 'jpegQuality' => 90,
             );
             $thumb       = new PHPThumb\GD($target, $options);
-            $thumb->cropFromCenter(225, 330);
+            $thumb->resize(225, 330);
             $thumb->save($targetThumb);
         }
     }
