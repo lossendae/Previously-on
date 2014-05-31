@@ -9,12 +9,14 @@
 */
 namespace Lossendae\PreviouslyOn\Repositories\Eloquent;
 
+use Lossendae\PreviouslyOn\Repositories\EpisodeRepositoryInterface;
+
 /**
  * Class EpisodeRepository
  *
  * @package Lossendae\PreviouslyOn\Repositories\Eloquent
  */
-class EpisodeRepository extends EloquentRepository
+class EpisodeRepository extends EloquentRepository implements EpisodeRepositoryInterface
 {
     /**
      * @var string
