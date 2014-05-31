@@ -4,8 +4,8 @@ $base = 'Lossendae\PreviouslyOn\Controllers\\';
 
 Route::group(array('before' => 'xsrf', 'prefix' => 'api'), function () use($base)
 {
-    Route::get('remote/search', $base . 'Api\SearchController@get');
-    Route::put('remote/{id}', $base . 'Api\AssignController@put');
+    Route::get('remote/search', $base . 'ApiController@get');
+    Route::put('remote/{id}', $base . 'ApiController@put');
 
     Route::get('manage/list', $base . 'TvShowController@getList');
     Route::get('manage/{id}', $base . 'TvShowController@manage');
