@@ -30,11 +30,25 @@ class TvShowRepository extends EloquentRepository
     public function listAll($userId)
     {
         $query = $this->model->select('tv_shows.*')
-                       ->assignedTo($userId)
-                       ->allWithRemaining($userId)
-                       ->orderBy('tv_shows.name')
-                       ->groupBy('tv_shows.id');
+                             ->assignedTo($userId)
+                             ->allWithRemaining($userId)
+                             ->orderBy('tv_shows.name')
+                             ->groupBy('tv_shows.id');
 
         return $query->get();
+    }
+
+    /**
+     * Get one Tv Show by the specified tv show id and user id
+     *
+     * @param $id
+     * @param $userId
+     * @return mixed
+     */
+    public function getOne($id, $userId)
+    {
+        return $this->model->select('tv_shows.*')
+                           ->oneWithRemaining($id, $userId)
+                           ->first();
     }
 } 

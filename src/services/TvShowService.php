@@ -7,13 +7,22 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Lossendae\PreviouslyOn\Services;
 
 use Lossendae\PreviouslyOn\Models\User;
 
+/**
+ * Class TvShowService
+ *
+ * @package Lossendae\PreviouslyOn\Services
+ */
 class TvShowService extends Base
 {
+    /**
+     * @var array
+     */
+    protected $data = array();
+
     /**
      * Get a list of tv show for the specified user
      *
@@ -22,7 +31,6 @@ class TvShowService extends Base
      */
     public function getList(User $user)
     {
-        $data = [];
         $results = $this->app['tvshow.repository']->listAll($user->id);
 
         if(!empty($results))
@@ -45,5 +53,19 @@ class TvShowService extends Base
             'total' => count($data),
             'data'  => $data,
         ));
+    }
+
+    /**
+     * Get a single Tv show and the remaining number of unseen episode(s)
+     *
+     * @param $id
+     * @param $user
+     * @return array
+     */
+    public function getOne($id, $user)
+    {
+        $result = $this->app['tvshow.repository']->getOne($id, $user->id);
+
+        return $this->success(array('tv_show' => $result->toArray()));
     }
 }
