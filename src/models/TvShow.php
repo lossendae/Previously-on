@@ -10,9 +10,14 @@
 
 namespace Lossendae\PreviouslyOn\Models;
 
-use Config, File, DB;
+use DB;
 use Eloquent;
 
+/**
+ * Class TvShow
+ *
+ * @package Lossendae\PreviouslyOn\Models
+ */
 class TvShow extends Eloquent
 {
     /**
@@ -46,27 +51,32 @@ class TvShow extends Eloquent
 
         static::deleting(function ($tvShow)
         {
-            // Remove all the related episodes
             $tvShow->episodes()
                    ->delete();
-
-            // @todo Move this to an observer
-            $cacheDir = Config::get('previously-on::app.assets_path') . '/images/cache/' . $tvShow->id;
-            File::deleteDirectory($cacheDir);
         });
     }
 
+    /**
+     * @return mixed
+     */
     public function episodes()
     {
         return $this->hasMany(__NAMESPACE__ . '\\' . 'Episode');
     }
 
+    /**
+     * @return mixed
+     */
     public function assigned()
     {
         return $this->belongsToMany(__NAMESPACE__ . '\\' . 'User', 'assigned_tv_shows')
                     ->withPivot('user_id');
     }
 
+    /**
+     * @param $query
+     * @return mixed
+     */
     public function scopeSeasons($query)
     {
         return $query->select(DB::raw('COUNT(DISTINCT season_number) as seasons'))
@@ -74,6 +84,11 @@ class TvShow extends Eloquent
                      ->where('season_number', '>', 0);
     }
 
+    /**
+     * @param $query
+     * @param $userId
+     * @return mixed
+     */
     public function scopeAssignedTo($query, $userId)
     {
         $query->join('assigned_tv_shows', function ($join) use ($userId)
@@ -85,6 +100,11 @@ class TvShow extends Eloquent
         return $query;
     }
 
+    /**
+     * @param $query
+     * @param $userId
+     * @return mixed
+     */
     public function scopeAllWithRemaining($query, $userId)
     {
         $remainingEpisodes = 'COUNT(CASE WHEN IF(' . DB::getTablePrefix() . 'watched_episodes.user_id, 1, 0) = 0 AND ';
@@ -102,6 +122,13 @@ class TvShow extends Eloquent
         return $query;
     }
 
+    /**
+     * @param      $query
+     * @param int  $id
+     * @param      $userId
+     * @param bool $returnResult
+     * @return mixed
+     */
     public function scopeOneWithRemaining($query, $id = 0, $userId, $returnResult = false)
     {
         $query->allWithRemaining($userId, $returnResult)

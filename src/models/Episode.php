@@ -10,7 +10,8 @@
 
 namespace Lossendae\PreviouslyOn\Models;
 
-use DB, Eloquent;
+use DB;
+use Eloquent;
 
 class Episode extends Eloquent
 {
