@@ -20,6 +20,11 @@ use Illuminate\Container\Container;
 abstract class EloquentRepository
 {
     /**
+     * @var \Illuminate\Container\Container
+     */
+    protected $app;
+
+    /**
      * @var the model to use for query
      */
     protected $model;
@@ -34,6 +39,7 @@ abstract class EloquentRepository
      */
     function __construct(Container $app)
     {
+        $this->app   = $app;
         $this->model = $app[$this->modelClassName];
     }
 
@@ -76,11 +82,10 @@ abstract class EloquentRepository
     }
 
     /**
-     * @param $id
      * @return mixed
      */
-    public function delete($id)
+    public function delete()
     {
-        return $this->model->delete($id);
+        return $this->model->delete();
     }
 } 
