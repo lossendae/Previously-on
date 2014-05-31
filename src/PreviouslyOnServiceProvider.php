@@ -10,6 +10,8 @@
 namespace Lossendae\PreviouslyOn;
 
 use Illuminate\Support\ServiceProvider as ServiceProvider;
+use Lossendae\PreviouslyOn\Repositories\Eloquent\TvShowRepository;
+use Lossendae\PreviouslyOn\Services\TvShowService;
 
 class PreviouslyOnServiceProvider extends ServiceProvider
 {
@@ -61,6 +63,23 @@ class PreviouslyOnServiceProvider extends ServiceProvider
         $this->commands('pvon:user');
         $this->commands('pvon:install');
         $this->commands('pvon:update');
+
+        $this->addBindings();
+    }
+
+    protected function addBindings()
+    {
+        // Add services
+        $this->app->bind('tvshow.service', function($app)
+        {
+            return new TvShowService($app);
+        });
+
+        // Add repositories
+        $this->app->bind('tvshow.repository', function($app)
+        {
+            return new TvShowRepository($app);
+        });
     }
 
     /**
