@@ -11,8 +11,15 @@ namespace Lossendae\PreviouslyOn;
 
 use Illuminate\Support\ServiceProvider as ServiceProvider;
 use Lossendae\PreviouslyOn\Repositories\Eloquent\TvShowRepository;
+use Lossendae\PreviouslyOn\Repositories\Eloquent\EpisodeRepository;
 use Lossendae\PreviouslyOn\Services\TvShowService;
+use Lossendae\PreviouslyOn\Services\EpisodeService;
 
+/**
+ * Class PreviouslyOnServiceProvider
+ *
+ * @package Lossendae\PreviouslyOn
+ */
 class PreviouslyOnServiceProvider extends ServiceProvider
 {
     /**
@@ -22,6 +29,9 @@ class PreviouslyOnServiceProvider extends ServiceProvider
      */
     protected $defer = false;
 
+    /**
+     *
+     */
     public function boot()
     {
         //For PSR-4 compatibility we need to specify the correct path (3rd parameter)
@@ -67,6 +77,9 @@ class PreviouslyOnServiceProvider extends ServiceProvider
         $this->addBindings();
     }
 
+    /**
+     * Add classes binding to the IoC container
+     */
     protected function addBindings()
     {
         // Add services
@@ -74,11 +87,19 @@ class PreviouslyOnServiceProvider extends ServiceProvider
         {
             return new TvShowService($app);
         });
+        $this->app->bind('episode.service', function($app)
+        {
+            return new EpisodeService($app);
+        });
 
         // Add repositories
         $this->app->bind('tvshow.repository', function($app)
         {
             return new TvShowRepository($app);
+        });
+        $this->app->bind('episode.repository', function($app)
+        {
+            return new EpisodeRepository($app);
         });
     }
 

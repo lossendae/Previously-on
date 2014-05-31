@@ -7,10 +7,11 @@ Route::group(array('before' => 'xsrf', 'prefix' => 'api'), function () use($base
     Route::get('remote/search', $base . 'Api\SearchController@get');
     Route::put('remote/{id}', $base . 'Api\AssignController@put');
 
-    Route::get('manage/list', $base . 'ManageController@query');
-    Route::get('manage/{id}', $base . 'ManageController@listSeasons');
-    Route::put('manage/{id}/{status}', $base . 'EpisodeStatusController@update');
-    Route::delete('manage/{id}', $base . 'ManageController@removeTvShow');
+    Route::get('manage/list', $base . 'AssignedTvShowController@getList');
+    Route::get('manage/{id}', $base . 'AssignedTvShowController@manage');
+    Route::delete('manage/{id}', $base . 'AssignedTvShowController@remove');
+
+    Route::put('manage/{id}/{status}', $base . 'EpisodeController@update');
 });
 
 Route::group(array('before' => 'xsrf'), function () use($base)
