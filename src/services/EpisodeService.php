@@ -9,8 +9,6 @@
 */
 namespace Lossendae\PreviouslyOn\Services;
 
-use Lossendae\PreviouslyOn\Models\User;
-
 /**
  * Class EpisodeService
  *
@@ -43,6 +41,8 @@ class EpisodeService extends Base
     }
 
     /**
+     * "Present" the output - Should not be there
+     *
      * @param array $episode
      */
     protected function processRow($episode)
@@ -102,5 +102,29 @@ class EpisodeService extends Base
         }
 
         return $this->failure("Le status de l'épisode n'a pas pû être mis à jour");
+    }
+
+    /**
+     * Create episodes attached to a new tv show
+     *
+     * @param $show
+     * @param $fromApi
+     */
+    public function handleCreate($show, $fromApi)
+    {
+        foreach($fromApi['episodes'] as $source)
+        {
+            $toSave = array(
+                'name'           => $source->getName(),
+                'first_aired'    => $source->getFirstAired(),
+                'overview'       => $source->getOverview(),
+                'tv_show_id'     => $show->id,
+                'season_id'      => $source->getSeasonId(),
+                'season_number'  => $source->getSeasonNumber(),
+                'episode_number' => $source->getEpisodeNumber(),
+            );
+
+            $this->app['episode.repository']->create($toSave);
+        }
     }
 }

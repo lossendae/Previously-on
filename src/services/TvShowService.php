@@ -9,8 +9,6 @@
 */
 namespace Lossendae\PreviouslyOn\Services;
 
-use Lossendae\PreviouslyOn\Models\User;
-
 /**
  * Class TvShowService
  *
@@ -23,6 +21,37 @@ class TvShowService extends Base
      */
     protected $data = array();
 
+    public function create($fromApi)
+    {
+        $origin = $fromApi['tvshow'];
+
+        if(is_null($origin))
+        {
+            return $this->failure('Une erreur est survenue lors de la récupération de la fiche de la série');
+        }
+
+        $fields = array(
+            'name'        => $origin->getName(),
+            'first_aired' => $origin->getFirstAired(),
+            'overview'    => $origin->getOverview(),
+            'network'     => $origin->getNetwork(),
+            'thetvdb_id'  => $origin->getTheTvDbId(),
+            'imdb_id'     => $origin->getImdbId(),
+        );
+
+        $new = $this->app['tvshow.repository']->create($fields);
+        $this->app['tvshow.repository']->assign($this->user->id, $new->thetvdb_id);
+
+        $this->app['events']->fire('previously-on.tv_show_created', array($new, $fromApi));
+
+        return $this->success();
+    }
+
+    public function assign($id)
+    {
+        $this->app['tvshow.repository']->assign($this->user->id, $id);
+    }
+
     /**
      * Get a list of tv show for the specified user
      *
@@ -31,6 +60,7 @@ class TvShowService extends Base
     public function getList()
     {
         $results = $this->app['tvshow.repository']->listAll($this->user->id);
+        $data = array();
 
         if(!empty($results))
         {
@@ -98,6 +128,7 @@ class TvShowService extends Base
         /* The model will handle cascading trough the episodes and image poster */
         if((int)$assigned == 0)
         {
+            $this->app['events']->fire('previously-on.tv_show_deleted', array($tvShow->id));
             $tvShow->delete();
         }
 
