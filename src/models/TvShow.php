@@ -50,7 +50,7 @@ class TvShow extends Eloquent
             $tvShow->episodes()
                    ->delete();
 
-            // Remove the associated poster image
+            // @todo Move this to an observer
             $cacheDir = Config::get('previously-on::app.assets_path') . '/images/cache/' . $tvShow->id;
             File::deleteDirectory($cacheDir);
         });
