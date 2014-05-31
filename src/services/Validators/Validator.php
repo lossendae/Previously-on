@@ -54,7 +54,6 @@ abstract class Validator {
             $messages = trans('admin::validation');
         }
 
-        // @todo Don't use Facade
         $validation = \Validator::make($this->attributes, $rules, $messages);
 
         if($validation->passes())

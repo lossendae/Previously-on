@@ -77,9 +77,11 @@ $ php artisan pvon:update
 ## Todos before release
 
 - [ ] Error message for API search
-- [ ] Auto update show schedule
-- [ ] Make it maintainable
-- [ ] Change config to use the supplied user model (reduce db calls)
+- [ ] Make it more maintainable (IndexPageController)
+- [x] Change config to use the supplied user model (reduce db calls)
+- [ ] Remove Facade usage in Validator
+- [ ] Custom Exception handlers
+- [ ] Unit testing
 
 ## Todos
 
@@ -87,7 +89,7 @@ $ php artisan pvon:update
 - [ ] Improve interactions (buttons...)
 - [ ] Multi language support
 - [ ] Delete confirm modal
-- [ ] Make it pluggable to 3rd party user management
+- [x] Make it pluggable to 3rd party user management
 
 ## License
 
