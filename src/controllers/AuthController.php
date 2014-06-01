@@ -12,12 +12,14 @@ namespace Lossendae\PreviouslyOn\Controllers;
 
 use Illuminate\Routing\Controller;
 use Lossendae\PreviouslyOn\Helpers\ResponseFormatter;
+use Lossendae\PreviouslyOn\Helpers\ValidationResponseFormatter;
 use Lossendae\PreviouslyOn\Services\Validators\User as UserValidator;
 use Input, Auth, Session;
 
 class AuthController extends Controller
 {
     use ResponseFormatter;
+    use ValidationResponseFormatter;
 
     /**
      * @return array

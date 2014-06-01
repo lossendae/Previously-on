@@ -1,6 +1,9 @@
 <?php namespace Lossendae\PreviouslyOn\Services\Validators;
  
-abstract class Validator {
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
+
+abstract class Base {
 
     /**
      * @var array
@@ -28,7 +31,7 @@ abstract class Validator {
      */
     public function __construct($data = null, $level = null)
     {
-        $this->attributes = $data ?: \Input::all();
+        $this->attributes = $data ?: Input::all();
         $this->level = $level;
     }
 
@@ -37,7 +40,6 @@ abstract class Validator {
      */
     public function passes()
     {
-        $rules = array();
         if($this->level !== null)
         {
             $rules = static::$rules[$this->level];
@@ -54,7 +56,7 @@ abstract class Validator {
             $messages = trans('admin::validation');
         }
 
-        $validation = \Validator::make($this->attributes, $rules, $messages);
+        $validation = Validator::make($this->attributes, $rules, $messages);
 
         if($validation->passes())
         {

@@ -1,6 +1,6 @@
 <?php namespace Lossendae\PreviouslyOn\Services\Validators;
 
-class User extends Validator
+class User extends Base
 {
     public static $rules = array(
         'create' => array(
