@@ -76,10 +76,10 @@ $ php artisan pvon:update
 
 ## Todos before release
 
-- [ ] Error message for API search
+- [ ] Nice error message for API search
 - [ ] Make it more maintainable (IndexPageController)
 - [x] Change config to use the supplied user model (reduce db calls)
-- [ ] Remove Facade usage in Validator
+- [x] Remove Facade usage in Validator
 - [ ] Custom Exception handlers
 - [ ] Unit testing
 
