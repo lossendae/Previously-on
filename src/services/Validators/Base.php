@@ -51,9 +51,9 @@ abstract class Base {
         }
         
         $messages = array();
-        if(is_array(trans('admin::validation')))
+        if(is_array(trans('previously-on::validation')))
         {
-            $messages = trans('admin::validation');
+            $messages = trans('previously-on::validation');
         }
 
         $validation = Validator::make($this->attributes, $rules, $messages);

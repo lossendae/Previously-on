@@ -82,12 +82,13 @@ $ php artisan pvon:update
 - [x] Remove Facade usage in Validator
 - [ ] Custom Exception handlers
 - [ ] Unit testing
+- [ ] Multi language in json response and Angular interface
 
 ## Todos
 
 - [ ] Schedule page
 - [ ] Improve interactions (buttons...)
-- [ ] Multi language support
+- [x] Multi language support
 - [ ] Delete confirm modal
 - [x] Make it pluggable to 3rd party user management
 
