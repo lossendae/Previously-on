@@ -9,17 +9,29 @@
 */
 namespace Lossendae\PreviouslyOn\Controllers;
 
+use Illuminate\Routing\Controller;
+use Lossendae\PreviouslyOn\Services\EpisodeService;
+use Lossendae\PreviouslyOn\Services\TvShowService;
+
 /**
  * Class TvShowController
  *
  * @package Lossendae\PreviouslyOn\Controllers
  */
-class TvShowController extends BaseController
+class TvShowController extends Controller
 {
+    protected $service;
+
     /**
      * @var array
      */
     protected $seasons = array();
+
+    function __construct(TvShowService $service, EpisodeService $episodeService)
+    {
+        $this->service = $service;
+        $this->episodeService = $episodeService;
+    }
 
     /**
      * Get the list of the TV shows
@@ -28,7 +40,7 @@ class TvShowController extends BaseController
      */
     public function getList()
     {
-        return $this->app['tvshow.service']->getList();
+        return $this->service->getList();
     }
 
     /**
@@ -39,10 +51,22 @@ class TvShowController extends BaseController
      */
     public function manage($id)
     {
-        $result = $this->app['tvshow.service']->getOne($id);
-        $result = array_merge($result, $this->app['episode.service']->getList($id));
+        $result = $this->service->getOne($id);
+        $result = array_merge($result, $this->episodeService->getList($id));
 
         return $result;
+    }
+
+    /**
+     * Update an episode status
+     *
+     * @param $id
+     * @param $status
+     * @return array
+     */
+    public function update($id, $status)
+    {
+        return $this->episodeService->updateStatus($id, $status);
     }
 
     /**
@@ -53,6 +77,6 @@ class TvShowController extends BaseController
      */
     public function remove($id)
     {
-        return $this->app['tvshow.service']->remove($id);
+        return $this->service->remove($id);
     }
 }

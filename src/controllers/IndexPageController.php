@@ -10,9 +10,10 @@
 
 namespace Lossendae\PreviouslyOn\Controllers;
 
-use BaseController, View, Config;
+use Illuminate\Routing\Controller;
+use View, Config;
 
-class IndexPageController extends BaseController
+class IndexPageController extends Controller
 {
     public function index()
     {

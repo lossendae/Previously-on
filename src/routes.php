@@ -10,8 +10,7 @@ Route::group(array('before' => 'xsrf', 'prefix' => 'api'), function () use($base
     Route::get('manage/list', $base . 'TvShowController@getList');
     Route::get('manage/{id}', $base . 'TvShowController@manage');
     Route::delete('manage/{id}', $base . 'TvShowController@remove');
-
-    Route::put('manage/{id}/{status}', $base . 'EpisodeController@update');
+    Route::put('manage/{id}/{status}', $base . 'TvShowController@update');
 });
 
 Route::group(array('before' => 'xsrf'), function () use($base)

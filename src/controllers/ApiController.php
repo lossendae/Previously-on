@@ -10,10 +10,19 @@
 
 namespace Lossendae\PreviouslyOn\Controllers;
 
-use Input;
+use Illuminate\Routing\Controller;
+use Lossendae\PreviouslyOn\Services\ApiService;
+use Illuminate\Support\Facades\Input;
 
-class ApiController extends BaseController
+class ApiController extends Controller
 {
+    protected $service;
+
+    function __construct(ApiService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Add a tv show to pool of watched series in the db (tv show + Episodes)
      *
@@ -22,7 +31,7 @@ class ApiController extends BaseController
      */
     public function put($id)
     {
-        return $this->app['api.service']->assign($id);
+        return $this->service->assign($id);
     }
 
     /**
@@ -34,6 +43,6 @@ class ApiController extends BaseController
     {
         $search = Input::get('q');
 
-        return $this->app['api.service']->search($search);
+        return $this->service->search($search);
     }
 }
