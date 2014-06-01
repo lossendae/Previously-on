@@ -13,7 +13,7 @@ namespace Lossendae\PreviouslyOn\Controllers;
 use Illuminate\Routing\Controller;
 use Lossendae\PreviouslyOn\Helpers\ResponseFormatter;
 use Lossendae\PreviouslyOn\Services\Validators\User as UserValidator;
-use Input, Auth;
+use Input, Auth, Session;
 
 class AuthController extends Controller
 {
@@ -32,16 +32,19 @@ class AuthController extends Controller
         }
 
         $credentials = array(
-            'username'    => Input::get('username'),
+            'username' => Input::get('username'),
             'password' => Input::get('pwd'),
         );
 
-        if (!Auth::attempt($credentials))
+        if(!Auth::attempt($credentials))
         {
             return array('logged' => false, 'message' => "Nom d'utilisateur ou mot de passe invalide");
         }
 
-        return array('logged' => true, 'user' => Auth::user()->toArray());
+        return array('logged' => true,
+                     'user'   => Auth::user()
+                                     ->toArray()
+        );
     }
 
     /**
@@ -50,6 +53,7 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
+        Session::flush();
 
         return array('logged' => false);
     }
