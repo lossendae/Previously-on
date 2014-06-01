@@ -13,8 +13,16 @@ namespace Lossendae\PreviouslyOn\Controllers;
 use Illuminate\Routing\Controller;
 use View, Config;
 
+/**
+ * Class IndexPageController
+ *
+ * @package Lossendae\PreviouslyOn\Controllers
+ */
 class IndexPageController extends Controller
 {
+    /**
+     * @return mixed
+     */
     public function index()
     {
         return View::make(Config::get('previously-on::app.index'), array(

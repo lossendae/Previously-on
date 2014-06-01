@@ -27,8 +27,14 @@ abstract class Base
 
     protected $user;
 
+    /**
+     * @var \Lossendae\PreviouslyOn\Repositories\TvShowRepositoryInterface
+     */
     protected $tvShowRepository;
 
+    /**
+     * @var \Lossendae\PreviouslyOn\Repositories\EpisodeRepositoryInterface
+     */
     protected $episodeRepository;
 
     /**
@@ -39,6 +45,11 @@ abstract class Base
     use ResponseFormatter;
     use ValidationResponseFormatter;
 
+    /**
+     * @param Container                  $app
+     * @param EpisodeRepositoryInterface $episodeRepository
+     * @param TvShowRepositoryInterface  $tvShowRepository
+     */
     function __construct(Container $app, EpisodeRepositoryInterface $episodeRepository, TvShowRepositoryInterface $tvShowRepository)
     {
         $this->app               = $app;

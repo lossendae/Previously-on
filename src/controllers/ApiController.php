@@ -15,11 +15,26 @@ use Illuminate\Support\Facades\Input;
 use Lossendae\PreviouslyOn\Services\ApiService;
 use Lossendae\PreviouslyOn\Services\TvShowService;
 
+/**
+ * Class ApiController
+ *
+ * @package Lossendae\PreviouslyOn\Controllers
+ */
 class ApiController extends Controller
 {
+    /**
+     * @var \Lossendae\PreviouslyOn\Services\ApiService
+     */
     protected $service;
+    /**
+     * @var \Lossendae\PreviouslyOn\Services\TvShowService
+     */
     protected $tvShowService;
 
+    /**
+     * @param ApiService    $service
+     * @param TvShowService $tvShowService
+     */
     function __construct(ApiService $service, TvShowService $tvShowService)
     {
         $this->service = $service;

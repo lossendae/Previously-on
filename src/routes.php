@@ -30,7 +30,9 @@ Route::get('auth/check', function ()
 
 Route::get('auth/session', function ()
 {
-    return ['user' => Auth::check() ? Auth::user()->toArray() : false];
+    return array(
+        'user' => Auth::check() ? Auth::user()->toArray() : false
+    );
 });
 
 Route::post('auth/login', $base . 'AuthController@login');
