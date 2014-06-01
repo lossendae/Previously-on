@@ -12,6 +12,9 @@ namespace Lossendae\PreviouslyOn\Services;
 use FPN\TheTVDB\Api;
 use FPN\TheTVDB\HttpClient\Buzz;
 use Illuminate\Container\Container;
+use Lossendae\PreviouslyOn\Models\User;
+use Lossendae\PreviouslyOn\Repositories\EpisodeRepositoryInterface;
+use Lossendae\PreviouslyOn\Repositories\TvShowRepositoryInterface;
 
 /**
  * Class ApiService
@@ -33,37 +36,33 @@ class ApiService extends Base
      */
     protected $existingIds = array();
 
-    /**
-     * @param Container $app
-     */
-    public function __construct(Container $app)
+    public function __construct(Container $app, EpisodeRepositoryInterface $episodeRepository, TvShowRepositoryInterface $tvShowRepository)
     {
-        $this->httpClient = new Buzz();
-        $this->api        = new Api($this->httpClient, $app['config']->get('previously-on::app.api_key'));
+        $this->httpClient    = new Buzz();
+        $this->api           = new Api($this->httpClient, $app['config']->get('previously-on::app.api_key'));
 
-        parent::__construct($app);
+        parent::__construct($app, $episodeRepository, $tvShowRepository);
     }
 
     /**
      * Add a tv show to pool of watched series in the db (tv show + Episodes)
      *
-     * @param int $id
+     * @param               $id
+     * @param TvShowService $service
      * @return array
      */
-    public function assign($id)
+    public function assign($id, TvShowService $service)
     {
         if($this->exists($id))
         {
-            // delegate
-            $this->app['tvshow.service']->assign($id);
+            $service->assign($id);
 
             return $this->success();
         }
 
         $newShow = $this->api->getTvShowAndEpisodes($id);
 
-        // delegate
-        return $this->app['tvshow.service']->create($newShow);
+        return $service->create($newShow);
     }
 
     /**
@@ -76,7 +75,7 @@ class ApiService extends Base
     {
         if(empty($this->existingIds))
         {
-            $idsObj = $this->app['tvshow.repository']->listField($this->user->id, 'thetvdb_id');
+            $idsObj = $this->tvShowRepository->listField($this->user->id, 'thetvdb_id');
 
             foreach($idsObj as $entry)
             {

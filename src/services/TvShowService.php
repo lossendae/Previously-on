@@ -39,8 +39,8 @@ class TvShowService extends Base
             'imdb_id'     => $origin->getImdbId(),
         );
 
-        $new = $this->app['tvshow.repository']->create($fields);
-        $this->app['tvshow.repository']->assign($this->user->id, $new->thetvdb_id);
+        $new = $this->tvShowRepository->create($fields);
+        $this->tvShowRepository->assign($this->user->id, $new->thetvdb_id);
 
         $this->app['events']->fire('previously-on.tv_show_created', array($new, $fromApi));
 
@@ -49,7 +49,7 @@ class TvShowService extends Base
 
     public function assign($id)
     {
-        $this->app['tvshow.repository']->assign($this->user->id, $id);
+        $this->tvShowRepository->assign($this->user->id, $id);
     }
 
     /**
@@ -59,7 +59,7 @@ class TvShowService extends Base
      */
     public function getList()
     {
-        $results = $this->app['tvshow.repository']->listAll($this->user->id);
+        $results = $this->tvShowRepository->listAll($this->user->id);
         $data = array();
 
         if(!empty($results))
@@ -92,7 +92,7 @@ class TvShowService extends Base
      */
     public function getOne($id)
     {
-        $result = $this->app['tvshow.repository']->getOne($id, $this->user->id);
+        $result = $this->tvShowRepository->getOne($id, $this->user->id);
 
         return $this->success(array('tv_show' => $result->toArray()));
     }
@@ -105,8 +105,8 @@ class TvShowService extends Base
      */
     public function remove($id)
     {
-        $tvShowRepository  =& $this->app['tvshow.repository'];
-        $episodeRepository =& $this->app['episode.repository'];
+        $tvShowRepository  =& $this->tvShowRepository;
+        $episodeRepository =& $this->episodeRepository;
 
         $tvShow = $tvShowRepository->find($id);
 

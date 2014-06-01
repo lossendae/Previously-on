@@ -13,6 +13,8 @@ namespace Lossendae\PreviouslyOn\Services;
 use Illuminate\Container\Container;
 use Lossendae\PreviouslyOn\Helpers\ResponseFormatter;
 use Lossendae\PreviouslyOn\Helpers\ValidationResponseFormatter;
+use Lossendae\PreviouslyOn\Repositories\EpisodeRepositoryInterface;
+use Lossendae\PreviouslyOn\Repositories\TvShowRepositoryInterface;
 
 /**
  * Class Base
@@ -25,6 +27,10 @@ abstract class Base
 
     protected $user;
 
+    protected $tvShowRepository;
+
+    protected $episodeRepository;
+
     /**
      * @var \Illuminate\Container\Container
      */
@@ -33,13 +39,12 @@ abstract class Base
     use ResponseFormatter;
     use ValidationResponseFormatter;
 
-    /**
-     * @param Container $app
-     */
-    function __construct(Container $app)
+    function __construct(Container $app, EpisodeRepositoryInterface $episodeRepository, TvShowRepositoryInterface $tvShowRepository)
     {
-        $this->app    = $app;
-        $this->config = $this->app['config'];
-        $this->user = $this->app['auth']->user();
+        $this->app               = $app;
+        $this->config            = $app['config'];
+        $this->user              = $this->app['auth']->user();
+        $this->episodeRepository = $episodeRepository;
+        $this->tvShowRepository  = $tvShowRepository;
     }
 }

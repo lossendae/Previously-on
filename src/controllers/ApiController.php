@@ -11,16 +11,19 @@
 namespace Lossendae\PreviouslyOn\Controllers;
 
 use Illuminate\Routing\Controller;
-use Lossendae\PreviouslyOn\Services\ApiService;
 use Illuminate\Support\Facades\Input;
+use Lossendae\PreviouslyOn\Services\ApiService;
+use Lossendae\PreviouslyOn\Services\TvShowService;
 
 class ApiController extends Controller
 {
     protected $service;
+    protected $tvShowService;
 
-    function __construct(ApiService $service)
+    function __construct(ApiService $service, TvShowService $tvShowService)
     {
         $this->service = $service;
+        $this->tvShowService = $tvShowService;
     }
 
     /**
@@ -31,7 +34,7 @@ class ApiController extends Controller
      */
     public function put($id)
     {
-        return $this->service->assign($id);
+        return $this->service->assign($id, $this->tvShowService);
     }
 
     /**

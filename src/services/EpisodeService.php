@@ -29,7 +29,7 @@ class EpisodeService extends Base
      */
     public function getList($id)
     {
-        $episodes = $this->app['episode.repository']->listAll($id, $this->user->id);
+        $episodes = $this->episodeRepository->listAll($id, $this->user->id);
 
         foreach($episodes as $episode)
         {
@@ -73,7 +73,7 @@ class EpisodeService extends Base
      */
     public function updateStatus($id, $status)
     {
-        $episode = $this->app['episode.repository']->findOrFail($id, array('id', 'first_aired', 'tv_show_id'));
+        $episode = $this->episodeRepository->findOrFail($id, array('id', 'first_aired', 'tv_show_id'));
 
         /* Double check : we don't update the watch status of an un-aired episode */
         if(strtotime($episode->first_aired) > strtotime('now'))
@@ -96,7 +96,7 @@ class EpisodeService extends Base
         if($episode->save())
         {
             /* Send back the updated remaining number of episode to watch */
-            $watchList = $this->app['tvshow.repository']->getOneWithRemaining($episode->tv_show_id, $this->user->id, true);
+            $watchList = $this->tvShowRepository->getOneWithRemaining($episode->tv_show_id, $this->user->id, true);
 
             return $this->success(array('remaining' => $watchList->remaining));
         }
@@ -124,7 +124,7 @@ class EpisodeService extends Base
                 'episode_number' => $source->getEpisodeNumber(),
             );
 
-            $this->app['episode.repository']->create($toSave);
+            $this->episodeRepository->create($toSave);
         }
     }
 }
