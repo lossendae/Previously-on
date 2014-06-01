@@ -10,11 +10,6 @@
 namespace Lossendae\PreviouslyOn;
 
 use Illuminate\Support\ServiceProvider as ServiceProvider;
-use Lossendae\PreviouslyOn\Repositories\Eloquent\TvShowRepository;
-use Lossendae\PreviouslyOn\Repositories\Eloquent\EpisodeRepository;
-use Lossendae\PreviouslyOn\Services\ApiService;
-use Lossendae\PreviouslyOn\Services\TvShowService;
-use Lossendae\PreviouslyOn\Services\EpisodeService;
 
 /**
  * Class PreviouslyOnServiceProvider

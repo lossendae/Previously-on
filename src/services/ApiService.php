@@ -12,7 +12,6 @@ namespace Lossendae\PreviouslyOn\Services;
 use FPN\TheTVDB\Api;
 use FPN\TheTVDB\HttpClient\Buzz;
 use Illuminate\Container\Container;
-use Lossendae\PreviouslyOn\Models\User;
 use Lossendae\PreviouslyOn\Repositories\EpisodeRepositoryInterface;
 use Lossendae\PreviouslyOn\Repositories\TvShowRepositoryInterface;
 
