@@ -83,29 +83,9 @@ class PreviouslyOnServiceProvider extends ServiceProvider
      */
     protected function addBindings()
     {
-        // Add services
-        $this->app->bind('tvshow.service', function($app)
-        {
-            return new TvShowService($app);
-        });
-        $this->app->bind('episode.service', function($app)
-        {
-            return new EpisodeService($app);
-        });
-        $this->app->bind('api.service', function($app)
-        {
-            return new ApiService($app);
-        });
-
         // Add repositories
-        $this->app->bind('tvshow.repository', function($app)
-        {
-            return new TvShowRepository($app);
-        });
-        $this->app->bind('episode.repository', function($app)
-        {
-            return new EpisodeRepository($app);
-        });
+        $this->app->bind('Lossendae\PreviouslyOn\Repositories\TvShowRepositoryInterface', 'Lossendae\PreviouslyOn\Repositories\Eloquent\TvShowRepository');
+        $this->app->bind('Lossendae\PreviouslyOn\Repositories\EpisodeRepositoryInterface', 'Lossendae\PreviouslyOn\Repositories\Eloquent\EpisodeRepository');
     }
 
     /**
